@@ -1,0 +1,30 @@
+package com.jss.camel.components.rest;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.rest.RestBindingMode;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
+
+@Component
+@ConditionalOnProperty(name = "jss.camel.rest-metrics.enabled", havingValue = "true")
+public class RestForMetrics extends RouteBuilder {
+
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
+    @Override
+    public void configure() throws Exception {
+        restConfiguration()
+                .component("servlet")
+                .bindingMode(RestBindingMode.auto);
+
+        rest()
+                .consumes("application/json").produces("application/json")
+                .get("/dates")
+                .route().routeId("Rest-Dates")
+                .setBody(e -> "Date: " + new Date().toString())
+                .endRest();
+    }
+}

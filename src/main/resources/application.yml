@@ -1,0 +1,39 @@
+camel:
+    component:
+        servlet:
+            mapping:
+                context-path: /services/*
+
+jss:
+    camel:
+        hello:
+            enabled: true
+        seda:
+            enabled: true
+        file:
+            enabled: false
+        weather:
+            enabled: false
+        wiretap:
+            enabled: false
+        rest:
+            enabled: false
+        rest-dsl:
+            enabled: false
+        rest-metrics:
+            enabled: true
+        kafka:
+            enabled: false
+server:
+    port: 8080
+
+metrics: 0 */1 * * * *
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include:
+                    - info
+                    - health
+                    - prometheus
