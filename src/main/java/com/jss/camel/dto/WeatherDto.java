@@ -14,15 +14,6 @@ import java.io.Serializable;
 public class WeatherDto implements Serializable {
     static int counter = 1;
     private int id = counter++;
-
-
-    /**
-         {
-             "city": "London",
-             "temp": "20",
-             "unit": "C"
-         }
-     */
     private String city;
     private String temp;
     private String unit;
