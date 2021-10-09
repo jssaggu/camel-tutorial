@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Random;
-import java.util.RandomAccess;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.camel.LoggingLevel.ERROR;
@@ -22,11 +22,15 @@ import static org.apache.camel.LoggingLevel.ERROR;
 @Component
 @ConditionalOnProperty(name = "jss.camel.seda.enabled", havingValue = "true")
 public class SedaRoute extends RouteBuilder {
+
+    static AtomicInteger counter = new AtomicInteger();
+
     @Override
     public void configure() {
-        from("timer:ping?period=1000")
+        from("timer:ping?period=100")
                 .routeId("Timer")
                 .process(exchange -> {
+                    counter.incrementAndGet();
                     Message message = new DefaultMessage(exchange);
                     message.setBody(new Date());
                     exchange.setMessage(message);
@@ -36,16 +40,28 @@ public class SedaRoute extends RouteBuilder {
         from("seda:weightLifter?multipleConsumers=true")
                 .routeId("Seda-WeightLifter")
                 .to("direct:complexProcess");
+        
 
         from("direct:complexProcess")
                 .routeId("Direct-ComplexProcess")
-                .log(ERROR, "${body}")
+//                .log(ERROR, "${body}")
                 .process(exchange -> {
-                        if(new Random().nextInt(20) < 5) {
-                            throw new Exception();
-                        }
+                    if (new Random().nextInt(20) < 5) {
+                        throw new Exception();
+                    }
                 })
-                .process(exchange -> SECONDS.sleep(5))
+                .process(exchange -> {
+                    SECONDS.sleep(5);
+                    int total = counter.decrementAndGet();
+                    System.out.println("Counter: " + total);
+                })
                 .end();
+    }
+
+
+    public static void main(String[] args) {
+        int counter = 200;
+
+        System.out.println("> " + counter % 100);
     }
 }
