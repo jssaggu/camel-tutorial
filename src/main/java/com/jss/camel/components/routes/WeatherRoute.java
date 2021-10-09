@@ -20,6 +20,15 @@ public class WeatherRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
+        //Called by Rabbit on message in weather queue
+        /*
+        {
+             "city": "London",
+             "temp": "20",
+             "unit": "C"
+         }
+        */
         fromF(RABBIT_URI, "weather", "weather")
                 .log(ERROR, "Before Enrichment: ${body}")
                 .unmarshal().json(JsonLibrary.Jackson, WeatherDto.class)
