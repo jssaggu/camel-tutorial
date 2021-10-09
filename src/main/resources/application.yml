@@ -7,7 +7,7 @@ camel:
 jss:
     camel:
         hello:
-            enabled: true
+            enabled: false
         seda:
             enabled: true
         file:
@@ -21,7 +21,7 @@ jss:
         rest-dsl:
             enabled: false
         rest-metrics:
-            enabled: true
+            enabled: false
         kafka:
             enabled: false
 server:
@@ -30,6 +30,9 @@ server:
 metrics: 0 */1 * * * *
 
 management:
+    health:
+      rabbit:
+          enabled: true
     endpoints:
         web:
             exposure:
@@ -37,3 +40,6 @@ management:
                     - info
                     - health
                     - prometheus
+    endpoint:
+        health:
+            show-details: always

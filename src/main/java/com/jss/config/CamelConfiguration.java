@@ -14,7 +14,7 @@ public class CamelConfiguration {
     public static final String RABBIT_URI = "rabbitmq:amq.direct?queue=%s&routingKey=%s&autoDelete=false";
 
     @Bean
-    public ConnectionFactory rabbitConnectionFactory() {
+    public ConnectionFactory rabbitConnectionFactory2() {
         return factory();
     }
 
