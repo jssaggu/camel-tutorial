@@ -5,7 +5,9 @@ This project contains several files to test Camel components.
 Components can be enabled/disabled through `application.yml` file.
 
 ### Videos
-All the tutorial videos are available [here](https://www.youtube.com/playlist?list=PLYwGWvgqiQCnRUzcdP1h6l-d9fRjP-Ed7)
+All the tutorial videos are available on Saggu.uk YouTube channel.
+
+[![Watch the video](docs/Apache-Camel-Playlist.png)](https://www.youtube.com/playlist?list=PLYwGWvgqiQCnRUzcdP1h6l-d9fRjP-Ed7)
 
 ## Metrics
 
