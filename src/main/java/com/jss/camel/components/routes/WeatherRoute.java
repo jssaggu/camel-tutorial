@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 import static com.jss.config.CamelConfiguration.RABBIT_URI;
+import static com.jss.config.CamelConfiguration.RABBIT_URI_NO_ROUTING_KEY;
+import static com.jss.config.CamelConfiguration.RABBIT_URI_TOPIC;
+import static com.jss.config.CamelConfiguration.RABBIT_URI_TOPIC_NO_ROUTING_KEY;
 import static org.apache.camel.LoggingLevel.ERROR;
 
 @Component
@@ -29,7 +32,7 @@ public class WeatherRoute extends RouteBuilder {
              "unit": "C"
          }
         */
-        fromF(RABBIT_URI, "weather", "weather")
+        fromF(RABBIT_URI_TOPIC, "weather", "all-nodes.#")
                 .log(ERROR, "Before Enrichment: ${body}")
                 .unmarshal().json(JsonLibrary.Jackson, WeatherDto.class)
                 .process(this::enrichWeatherDto)
@@ -38,6 +41,8 @@ public class WeatherRoute extends RouteBuilder {
                 .toF(RABBIT_URI, "weather-events", "weather-events")
                 .to("file:///Users/jasvinder.saggu/projects/temp/camel-demos/?fileName=weather-events.txt&fileExist=Append")
         ;
+
+        //all-node-provision
     }
 
     private void enrichWeatherDto(Exchange exchange) {

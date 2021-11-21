@@ -9,7 +9,7 @@ jss:
         hello:
             enabled: false
         seda:
-            enabled: true
+            enabled: false
         file:
             enabled: false
         weather:

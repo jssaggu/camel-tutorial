@@ -11,7 +11,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class CamelConfiguration {
 
-    public static final String RABBIT_URI = "rabbitmq:amq.direct?queue=%s&routingKey=%s&autoDelete=false";
+    private static String EX_DIRECT = "jss.direct";
+    private static String EX_TOPIC = "jss.topic";
+    public static final String RABBIT_URI_NO_ROUTING_KEY = "rabbitmq:" + EX_DIRECT + "?queue=%s&autoDelete=false";
+    public static final String RABBIT_URI = "rabbitmq:" + EX_DIRECT + "?queue=%s&routingKey=%s&autoDelete=false";
+    public static final String RABBIT_URI_TOPIC = "rabbitmq:" + EX_TOPIC + "?exchangeType=topic&queue=%s&routingKey=%s&autoDelete=false";
+    public static final String RABBIT_URI_TOPIC_NO_ROUTING_KEY = "rabbitmq:" + EX_TOPIC + "?exchangeType=topic&queue=%s&autoDelete=false";
 
     @Bean
     public ConnectionFactory rabbitConnectionFactory2() {
