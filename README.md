@@ -4,6 +4,9 @@ This project contains several files to test Camel components.
 
 Components can be enabled/disabled through `application.yml` file.
 
+### Videos
+All the tutorial videos are available [here](https://www.youtube.com/playlist?list=PLYwGWvgqiQCnRUzcdP1h6l-d9fRjP-Ed7)
+
 ## Metrics
 
 Camel Metrics are exposed using Spring Actuator, Prometheus, Grafana
