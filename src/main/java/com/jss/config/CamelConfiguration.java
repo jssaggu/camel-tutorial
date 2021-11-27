@@ -5,10 +5,12 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.component.micrometer.messagehistory.MicrometerMessageHistoryFactory;
 import org.apache.camel.component.micrometer.routepolicy.MicrometerRoutePolicyFactory;
 import org.apache.camel.spring.boot.CamelContextConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConditionalOnProperty(name = "jss.camel.rest-metrics.enabled", havingValue = "true")
 public class CamelConfiguration {
 
     private static String EX_DIRECT = "jss.direct";

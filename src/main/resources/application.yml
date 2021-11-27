@@ -1,8 +1,11 @@
+server:
+    port: 8080
+
+
 camel:
-    component:
-        servlet:
-            mapping:
-                context-path: /services/*
+    servlet:
+        mapping:
+            context-path: /services/*
 
 jss:
     camel:
@@ -19,20 +22,28 @@ jss:
         rest:
             enabled: false
         rest-dsl:
-            enabled: false
+            enabled: true
         rest-metrics:
             enabled: false
         kafka:
             enabled: false
-server:
-    port: 8080
 
 metrics: 0 */1 * * * *
 
+---
+spring:
+    config:
+        activate:
+            on-profile: management
+
 management:
     health:
-      rabbit:
-          enabled: true
+        rabbit:
+          enabled: false
+        livenessstate:
+            enabled: true
+        readinessstate:
+            enabled: true
     endpoints:
         web:
             exposure:
@@ -40,6 +51,13 @@ management:
                     - info
                     - health
                     - prometheus
+                    - liveness
     endpoint:
         health:
-            show-details: always
+            show-details: never
+            probes:
+                enabled: true
+
+            group:
+                readiness:
+                    include: "*"

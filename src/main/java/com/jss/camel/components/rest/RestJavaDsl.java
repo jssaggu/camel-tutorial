@@ -19,8 +19,8 @@ public class RestJavaDsl extends RouteBuilder {
 
     private final WeatherDataProvider weatherDataProvider;
 
-    public RestJavaDsl(WeatherDataProvider weatherDataProvider) {
-        this.weatherDataProvider = weatherDataProvider;
+    public RestJavaDsl() {
+        this.weatherDataProvider = new WeatherDataProvider();
     }
 
     @Override
@@ -31,15 +31,6 @@ public class RestJavaDsl extends RouteBuilder {
     }
 
     private void getWeatherDataAndSetToExchange(Exchange exchange) {
-        String city = exchange.getMessage().getHeader("city", String.class);
-        WeatherDto currentWeather = this.weatherDataProvider.getCurrentWeather(city);
-
-        if (Objects.nonNull(currentWeather)) {
-            Message message = new DefaultMessage(exchange.getContext());
-            message.setBody(currentWeather);
-            exchange.setMessage(message);
-        } else {
-            exchange.getMessage().setHeader(HTTP_RESPONSE_CODE, NOT_FOUND.value());
-        }
+        RestDsl.getCity(exchange, this.weatherDataProvider);
     }
 }

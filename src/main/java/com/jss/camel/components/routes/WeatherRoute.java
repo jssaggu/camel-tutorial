@@ -12,9 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 import static com.jss.config.CamelConfiguration.RABBIT_URI;
-import static com.jss.config.CamelConfiguration.RABBIT_URI_NO_ROUTING_KEY;
 import static com.jss.config.CamelConfiguration.RABBIT_URI_TOPIC;
-import static com.jss.config.CamelConfiguration.RABBIT_URI_TOPIC_NO_ROUTING_KEY;
 import static org.apache.camel.LoggingLevel.ERROR;
 
 @Component

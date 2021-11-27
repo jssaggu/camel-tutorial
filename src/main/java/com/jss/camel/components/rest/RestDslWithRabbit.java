@@ -5,6 +5,7 @@ import com.jss.camel.dto.WeatherDto;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.camel.support.DefaultMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -12,19 +13,19 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-import static java.util.Objects.nonNull;
+import static com.jss.config.CamelConfiguration.RABBIT_URI;
 import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Component
-@ConditionalOnProperty(name = "jss.camel.rest-dsl.enabled", havingValue = "true")
-public class RestDsl extends RouteBuilder {
+@ConditionalOnProperty(name = "jss.camel.rest-dsl-rabbit.enabled", havingValue = "true")
+public class RestDslWithRabbit extends RouteBuilder {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private final WeatherDataProvider weatherDataProvider;
 
-    public RestDsl() {
+    public RestDslWithRabbit() {
         this.weatherDataProvider = new WeatherDataProvider();
     }
 
@@ -45,8 +46,13 @@ public class RestDsl extends RouteBuilder {
 
         from("direct:save-weather-data")
                 .process(this::saveWeatherData)
+                .wireTap("direct:write-to-rabbit")
                 .end()
         ;
+
+        from("direct:write-to-rabbit")
+                .marshal().json(JsonLibrary.Jackson, WeatherDto.class)
+                .toF(RABBIT_URI, "weather-data", "weather-data");
     }
 
     private void saveWeatherData(Exchange exchange) {
@@ -60,19 +66,6 @@ public class RestDsl extends RouteBuilder {
     }
 
     private void getWeatherDataAndSetToExchange(Exchange exchange) {
-        getCity(exchange, this.weatherDataProvider);
-    }
-
-    static void getCity(Exchange exchange, WeatherDataProvider weatherDataProvider) {
-        String city = exchange.getMessage().getHeader("city", String.class);
-        WeatherDto currentWeather = weatherDataProvider.getCurrentWeather(city);
-
-        if (nonNull(currentWeather)) {
-            Message message = new DefaultMessage(exchange.getContext());
-            message.setBody(currentWeather);
-            exchange.setMessage(message);
-        } else {
-            exchange.getMessage().setHeader(HTTP_RESPONSE_CODE, NOT_FOUND.value());
-        }
+        RestDsl.getCity(exchange, this.weatherDataProvider);
     }
 }

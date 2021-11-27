@@ -5,7 +5,7 @@ import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;
 import org.springframework.stereotype.Component;
 
-@Component
+//@Component
 public class PZCamelHealthIndicator implements HealthIndicator {
 
     private final CamelContext camelContext;
