@@ -10,8 +10,6 @@ import org.apache.camel.support.DefaultMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
 import static java.util.Objects.nonNull;
 import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -26,6 +24,19 @@ public class RestDsl extends RouteBuilder {
 
     public RestDsl() {
         this.weatherDataProvider = new WeatherDataProvider();
+    }
+
+    static void getCity(Exchange exchange, WeatherDataProvider weatherDataProvider) {
+        String city = exchange.getMessage().getHeader("city", String.class);
+        WeatherDto currentWeather = weatherDataProvider.getCurrentWeather(city);
+
+        if (nonNull(currentWeather)) {
+            Message message = new DefaultMessage(exchange.getContext());
+            message.setBody(currentWeather);
+            exchange.setMessage(message);
+        } else {
+            exchange.getMessage().setHeader(HTTP_RESPONSE_CODE, NOT_FOUND.value());
+        }
     }
 
     @Override
@@ -61,18 +72,5 @@ public class RestDsl extends RouteBuilder {
 
     private void getWeatherDataAndSetToExchange(Exchange exchange) {
         getCity(exchange, this.weatherDataProvider);
-    }
-
-    static void getCity(Exchange exchange, WeatherDataProvider weatherDataProvider) {
-        String city = exchange.getMessage().getHeader("city", String.class);
-        WeatherDto currentWeather = weatherDataProvider.getCurrentWeather(city);
-
-        if (nonNull(currentWeather)) {
-            Message message = new DefaultMessage(exchange.getContext());
-            message.setBody(currentWeather);
-            exchange.setMessage(message);
-        } else {
-            exchange.getMessage().setHeader(HTTP_RESPONSE_CODE, NOT_FOUND.value());
-        }
     }
 }

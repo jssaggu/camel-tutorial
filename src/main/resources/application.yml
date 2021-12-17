@@ -1,7 +1,6 @@
 server:
     port: 8080
 
-
 camel:
     servlet:
         mapping:
@@ -22,10 +21,12 @@ jss:
         rest:
             enabled: false
         rest-dsl:
-            enabled: true
+            enabled: false
         rest-metrics:
             enabled: false
         kafka:
+            enabled: false
+        error-handlers:
             enabled: false
 
 metrics: 0 */1 * * * *
