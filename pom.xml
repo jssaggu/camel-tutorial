@@ -15,7 +15,7 @@
     <description>Apache Camel with Spring Boot</description>
 
     <properties>
-<!--        <java.version>11</java.version>-->
+        <!--        <java.version>11</java.version>-->
         <junit.platform.version>1.6.0</junit.platform.version>
         <camel.version>3.11.3</camel.version>
     </properties>
@@ -44,13 +44,6 @@
             <scope>test</scope>
         </dependency>
 
-       <!-- <dependency>
-            <groupId>org.apache.camel</groupId>
-            <artifactId>camel-test</artifactId>
-            <scope>test</scope>
-            <version>${camel.version}</version>
-        </dependency>-->
-
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-rabbitmq</artifactId>
@@ -73,14 +66,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>org.springframework.amqp</groupId>
-            <artifactId>spring-rabbit</artifactId>
-            <version>2.3.10</version>
-        </dependency>
 
--->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-micrometer-starter</artifactId>

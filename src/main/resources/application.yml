@@ -5,6 +5,8 @@ camel:
     servlet:
         mapping:
             context-path: /services/*
+    springboot:
+        routes-include-pattern: classpath:camel-routes/*
 
 jss:
     camel:
