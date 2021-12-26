@@ -2,7 +2,7 @@ version: '3.9'
 
 networks:
   metrics:
-    name: metrics
+    name: saggu.uk
 
 services:
   dev:
@@ -76,3 +76,11 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+
+  # Web: http://localhost:8161/ (admin/admin)
+  activemq:
+    image: rmohr/activemq
+    container_name: activemq
+    ports:
+      - 61616:61616
+      - 8161:8161

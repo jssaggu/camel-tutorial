@@ -8,6 +8,7 @@ camel:
     springboot:
         routes-include-pattern: classpath:camel-routes/*
 
+
 jss:
     camel:
         hello:
@@ -30,9 +31,16 @@ jss:
             enabled: false
         error-handlers:
             enabled: false
+        jms:
+            enabled: true
 
 metrics: 0 */1 * * * *
 
+logging:
+    level:
+        root: INFO
+        org.apache.camel: INFO
+        com.jss.camel.components: INFO
 ---
 spring:
     config:
