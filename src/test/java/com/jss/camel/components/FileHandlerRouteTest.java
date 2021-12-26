@@ -26,9 +26,10 @@ public class FileHandlerRouteTest {
 
     @Test
     @DirtiesContext
+    @Ignore
     public void testCamelFileRoute() {
         System.out.println("Sending request to append to existing file...");
-        template.sendBody("direct:appendToFile", "Hello " + new Date() + "\n");
+//        template.sendBody("direct:appendToFile", "Hello " + new Date() + "\n");
         System.out.println("Sent request to append to existing file...");
     }
 }
