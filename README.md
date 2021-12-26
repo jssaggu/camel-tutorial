@@ -1,4 +1,5 @@
-## Camel Playground
+## Camel Playground 
+![Java Maven CI](https://github.com/jssaggu/camel-tutorial/actions/workflows/maven.yml/badge.svg)
 
 This project contains several files to test Camel components.   
 
