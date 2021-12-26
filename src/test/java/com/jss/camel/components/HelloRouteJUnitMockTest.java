@@ -23,7 +23,7 @@ public class HelloRouteJUnitMockTest extends CamelTestSupport {
     @Test
     public void testMocksAreValid() throws InterruptedException {
         MockEndpoint mock = getMockEndpoint("mock:greetingResult");
-        mock.expectedMessageCount(20);
+        mock.expectedMessageCount(2);
 
         System.out.println("Sending 1");
         template.sendBody("direct:greeting", "Team");
