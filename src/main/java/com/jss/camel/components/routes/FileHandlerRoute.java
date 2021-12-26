@@ -17,9 +17,10 @@ import java.util.Optional;
 @Component
 @ConditionalOnProperty(name = "jss.camel.file.enabled", havingValue = "true")
 public class FileHandlerRoute extends RouteBuilder {
-    public static final String FROM_DIR = "/Users/jasvinder.saggu/projects/temp/?noop=true&";
-    public static final String TO_DIR = "/Users/jasvinder.saggu/projects/temp/?";
-    public static final String APPEND = "fileExist=Append";
+    private static String TMP_DIR = System.getProperty("java.io.tmpdir");
+    public static final String FROM_DIR = TMP_DIR + "temp/?noop=true&";
+    public static final String TO_DIR = TMP_DIR + "temp/?";
+    public static final String APPEND = TMP_DIR + "fileExist=Append";
 
     public static void main(String[] args) {
         boolean enabled = false;
