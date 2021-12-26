@@ -1,30 +1,24 @@
 package com.jss.camel.components.routes.jms;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
-import javax.jms.ConnectionFactory;
+import static org.apache.camel.LoggingLevel.INFO;
 
-import static org.apache.camel.component.jms.JmsComponent.jmsComponentAutoAcknowledge;
-
-//@Component
+@Component
+@Slf4j
 public class JMSRoute extends RouteBuilder {
-
-    //    private final CamelConfiguration camelConfiguration;
 
     @Override
     public void configure() throws Exception {
-        //ConnectionFactory connectionFactory = new RMQConnectionFactory();
-        ConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
-        getContext().addComponent("jms",
-                jmsComponentAutoAcknowledge(connectionFactory));
-        from("jms:my-queue:my-orders")
-                .log(LoggingLevel.ERROR, "${body}")
+
+        from("jms:queue:orders")
+                .log(INFO, "Got a message: ${body}")
                 .choice()
-                .when(e -> e.getMessage().getBody().toString().contains("card"))
-                .wireTap("jms:fraud-check:messages")
+                    .when(e -> e.getMessage().getBody().toString().contains("card"))
+                        .wireTap("jms:queue:fraud-check-messages")
                 .end()
         ;
     }

@@ -1,9 +1,9 @@
 <routes xmlns="http://camel.apache.org/schema/spring">
-    <route id="test">
+    <!--<route id="test">
         <from uri="timer://trigger"/>
         <transform>
             <simple>ref:myBean</simple>
         </transform>
         <to uri="log:out"/>
-    </route>
+    </route>-->
 </routes>

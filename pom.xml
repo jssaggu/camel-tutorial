@@ -20,6 +20,15 @@
         <camel.version>3.11.3</camel.version>
     </properties>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
@@ -44,16 +53,11 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- JMS -->
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jms</artifactId>
             <version>${camel.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.rabbitmq.jms</groupId>
-            <artifactId>rabbitmq-jms</artifactId>
-            <version>2.3.0</version>
         </dependency>
 
         <!-- ActiveMQ -->
@@ -68,6 +72,17 @@
             <version>${activemq.version}</version>
         </dependency>
         <!-- ActiveMQ -->
+
+        <!--Rabbit MQ-->
+        <!--
+        <dependency>
+            <groupId>com.rabbitmq.jms</groupId>
+            <artifactId>rabbitmq-jms</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        -->
+        <!--Rabbit MQ-->
+        <!-- JMS -->
 
         <dependency>
             <groupId>org.apache.camel</groupId>
@@ -163,14 +178,5 @@
         </dependency>
 
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
