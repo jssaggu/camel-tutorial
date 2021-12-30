@@ -11,11 +11,7 @@ import org.apache.camel.support.DefaultMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
-import static com.jss.config.CamelConfiguration.RABBIT_URI;
-import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.RABBIT_URI;
 
 @Component
 @ConditionalOnProperty(name = "jss.camel.rest-dsl-rabbit.enabled", havingValue = "true")

@@ -1,4 +1,4 @@
-package com.jss.camel.components.routes;
+package com.jss.camel.components.routes.rabbitmq;
 
 import com.jss.camel.dto.WeatherDto;
 import org.apache.camel.Exchange;
@@ -11,13 +11,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-import static com.jss.config.CamelConfiguration.RABBIT_URI;
-import static com.jss.config.CamelConfiguration.RABBIT_URI_TOPIC;
 import static org.apache.camel.LoggingLevel.ERROR;
 
 @Component
-@ConditionalOnProperty(name = "jss.camel.weather.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "jss.camel.rabbitmq.enabled", havingValue = "true")
 public class WeatherRoute extends RouteBuilder {
+    public static final String EXCHANGE_WEATHER = "weather.direct";
+    public static final String RABBIT_URI = "rabbitmq:" + EXCHANGE_WEATHER +"?queue=%s&routingKey=%s&autoDelete=false";
+    public static final String QUEUE_WEATHER = "weather";
+    public static final String QUEUE_WEATHER_EVENTS = "weather-events";
 
     @Override
     public void configure() throws Exception {
@@ -30,14 +32,14 @@ public class WeatherRoute extends RouteBuilder {
              "unit": "C"
          }
         */
-        fromF(RABBIT_URI_TOPIC, "weather", "all-nodes.#")
+        fromF(RABBIT_URI, QUEUE_WEATHER, QUEUE_WEATHER)
                 .log(ERROR, "Before Enrichment: ${body}")
                 .unmarshal().json(JsonLibrary.Jackson, WeatherDto.class)
                 .process(this::enrichWeatherDto)
                 .log(ERROR, "After Enrichment: ${body}")
                 .marshal().json(JsonLibrary.Jackson, WeatherDto.class)
-                .toF(RABBIT_URI, "weather-events", "weather-events")
-                .to("file:///Users/jasvinder.saggu/projects/temp/camel-demos/?fileName=weather-events.txt&fileExist=Append")
+                .toF(RABBIT_URI, QUEUE_WEATHER_EVENTS, QUEUE_WEATHER_EVENTS)
+        //.to("file:///Users/jasvinder.saggu/projects/temp/camel-demos/?fileName=weather-events.txt&fileExist=Append")
         ;
 
         //all-node-provision

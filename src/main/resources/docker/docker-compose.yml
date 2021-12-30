@@ -7,12 +7,12 @@ networks:
 services:
   dev:
     container_name: jss
-    image: ie-repo.vocalink.co.uk/ips-docker-group/tianon/true:latest
+    image: tianon/true:latest
     depends_on:
       - rabbitmq
 
   monitor:
-    image: ie-repo.vocalink.co.uk/ips-docker-group/tianon/true:latest
+    image: tianon/true:latest
     depends_on:
         - dev
         - zookeeper

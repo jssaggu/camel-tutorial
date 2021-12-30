@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-@ConditionalOnProperty(name = "jss.camel.weather.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "jss.camel.rabbitmq.enabled", havingValue = "true")
 public class WeatherDataProvider {
 
     private static Map<String, WeatherDto> weatherData = new HashMap<>();

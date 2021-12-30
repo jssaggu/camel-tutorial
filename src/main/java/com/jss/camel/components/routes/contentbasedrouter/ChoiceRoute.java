@@ -1,11 +1,13 @@
 package com.jss.camel.components.routes.contentbasedrouter;
 
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import static org.apache.camel.LoggingLevel.ERROR;
 
 @Component
+@ConditionalOnProperty(name = "jss.camel.choice.enabled", havingValue = "true")
 public class ChoiceRoute extends RouteBuilder {
 
     public static final String WIDGET = "widget";
