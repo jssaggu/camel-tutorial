@@ -16,7 +16,7 @@
 
     <properties>
         <!--        <java.version>11</java.version>-->
-        <junit.platform.version>1.6.0</junit.platform.version>
+        <junit.platform.version>1.8.2</junit.platform.version>
         <camel.version>3.11.3</camel.version>
     </properties>
 
