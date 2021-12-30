@@ -15,9 +15,10 @@
     <description>Apache Camel with Spring Boot</description>
 
     <properties>
-        <!--        <java.version>11</java.version>-->
+        <!-- <java.version>11</java.version>-->
         <junit.platform.version>1.8.2</junit.platform.version>
         <camel.version>3.14.0</camel.version>
+        <testcontainers.version>1.16.2</testcontainers.version>
     </properties>
 
     <build>
@@ -45,12 +46,6 @@
             <groupId>ch.qos.cal10n</groupId>
             <artifactId>cal10n-api</artifactId>
             <version>0.8.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
         </dependency>
 
         <!-- JMS -->
@@ -149,6 +144,13 @@
             <version>${camel.version}</version>
         </dependency>
 
+        <!-- Tests -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-runner</artifactId>
@@ -177,6 +179,28 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.amqp</groupId>
+            <artifactId>spring-rabbit-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- TestContainers -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- TestContainers End-->
+
+        <!-- Tests end -->
     </dependencies>
 
 </project>

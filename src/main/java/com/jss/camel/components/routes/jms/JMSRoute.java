@@ -3,11 +3,13 @@ package com.jss.camel.components.routes.jms;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import static org.apache.camel.LoggingLevel.INFO;
 
 @Component
+@ConditionalOnProperty(name = "jss.camel.jms.enabled", havingValue = "true")
 @Slf4j
 public class JMSRoute extends RouteBuilder {
 

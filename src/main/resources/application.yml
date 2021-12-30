@@ -17,7 +17,7 @@ jss:
             enabled: false
         file:
             enabled: false
-        weather:
+        rabbitmq:
             enabled: false
         wiretap:
             enabled: false
@@ -32,7 +32,7 @@ jss:
         error-handlers:
             enabled: false
         jms:
-            enabled: true
+            enabled: false
 
 metrics: 0 */1 * * * *
 
