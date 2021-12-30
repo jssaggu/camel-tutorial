@@ -2,6 +2,7 @@ package com.jss.camel.components.rabbitmq;
 
 import com.jss.CamelApplication;
 import org.apache.camel.test.spring.junit5.CamelSpringBootTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -15,6 +16,10 @@ import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.QUEUE_WEATHE
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@Disabled(
+        "A RabbitMQ server must be running inorder to run this test." +
+                "Once RabbitMQ is started. Remove @Disabled statement"
+)
 @SpringBootTest(
         classes = CamelApplication.class,
         properties = {"jss.camel.rabbitmq.enabled=true"}
