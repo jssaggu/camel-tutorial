@@ -33,6 +33,8 @@ jss:
             enabled: false
         jms:
             enabled: false
+        testcontainers:
+            enabled: false
 
 metrics: 0 */1 * * * *
 

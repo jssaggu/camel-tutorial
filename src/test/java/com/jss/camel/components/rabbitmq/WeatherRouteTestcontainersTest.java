@@ -8,6 +8,15 @@ import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
+
+import java.time.Duration;
 
 import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.EXCHANGE_WEATHER;
 import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.QUEUE_WEATHER;
@@ -17,10 +26,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(
         classes = CamelApplication.class,
-        properties = {"jss.camel.rabbitmq.enabled=true"}
-)
+        properties = {
+                "jss.camel.rabbitmq.enabled=true",
+                "jss.camel.testcontainers.enabled=true"
+        })
 @CamelSpringBootTest
-class WeatherRouteTest {
+@Testcontainers
+@ContextConfiguration(classes = {TestContainerLaunchConfig.class}, loader = AnnotationConfigContextLoader.class)
+class WeatherRouteTestcontainersTest {
+
+    private static final String RABBIT_UP_LOG_MESSAGE = ".*Resetting node maintenance status.*";
+
+    @Container
+    public static GenericContainer DOCKER_RABBITMQ = new GenericContainer(
+            DockerImageName.parse("rabbitmq:3-management"))
+            .withExposedPorts(5672)
+            .waitingFor(Wait.forLogMessage(RABBIT_UP_LOG_MESSAGE, 1)
+                    .withStartupTimeout(Duration.ofSeconds(20)));
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
