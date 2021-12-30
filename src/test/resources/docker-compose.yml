@@ -1,0 +1,12 @@
+version: '3.9'
+
+networks:
+  metrics:
+    name: saggu.uk
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 5672:5672
+      - 15672:15672

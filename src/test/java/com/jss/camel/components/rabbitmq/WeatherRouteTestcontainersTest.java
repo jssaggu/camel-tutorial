@@ -62,7 +62,7 @@ class WeatherRouteTestcontainersTest {
           */
     @Container
     public static DockerComposeContainer DOCKER_RABBITMQ = new DockerComposeContainer(
-            new File("src/main/resources/docker/docker-compose.yml"))
+            new File("src/test/resources/docker-compose.yml"))
             .withExposedService(SERVICE_NAME_RABBITMQ, RABBITMQ_PORT)
             .waitingFor(SERVICE_NAME_RABBITMQ, waitForLogMessageFunction.apply(RABBIT_UP_LOG_MESSAGE)
             );
