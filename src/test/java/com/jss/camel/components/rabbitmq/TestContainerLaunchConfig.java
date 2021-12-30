@@ -7,30 +7,20 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.annotation.PostConstruct;
-import java.util.Properties;
-
 import static com.jss.camel.components.rabbitmq.WeatherRouteTestcontainersTest.DOCKER_RABBITMQ;
-import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.RMQ_HOST;
-import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.RMQ_PORT;
+import static com.jss.camel.components.rabbitmq.WeatherRouteTestcontainersTest.RABBITMQ_PORT;
+import static com.jss.camel.components.rabbitmq.WeatherRouteTestcontainersTest.SERVICE_NAME_RABBITMQ;
 
 @Configuration
 @ConditionalOnProperty(name = "jss.camel.testcontainers.enabled", havingValue = "true")
 public class TestContainerLaunchConfig {
 
-    @PostConstruct
-    public void constructed() {
-        Properties props = System.getProperties();
-        props.put(RMQ_HOST, "" + DOCKER_RABBITMQ.getHost());
-        props.put(RMQ_PORT, "" + DOCKER_RABBITMQ.getMappedPort(5672));
-    }
-
     @Bean
     public RabbitTemplate rabbitTemplate() {
-        String address = DOCKER_RABBITMQ.getHost();
-        Integer port = DOCKER_RABBITMQ.getMappedPort(5672);
+        String host = DOCKER_RABBITMQ.getServiceHost(SERVICE_NAME_RABBITMQ, RABBITMQ_PORT);
+        Integer port = DOCKER_RABBITMQ.getServicePort(SERVICE_NAME_RABBITMQ, RABBITMQ_PORT);
         RabbitConnectionFactoryBean factoryBean = new RabbitConnectionFactoryBean();
-        factoryBean.setHost(address);
+        factoryBean.setHost(host);
         factoryBean.setPort(port);
         factoryBean.setUsername("guest");
         factoryBean.setPassword("guest");

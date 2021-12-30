@@ -6,7 +6,7 @@ networks:
 
 services:
   dev:
-    container_name: jss
+#    container_name: jss
     image: ie-repo.vocalink.co.uk/ips-docker-group/tianon/true:latest
     depends_on:
       - rabbitmq
@@ -40,7 +40,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
   saggu-camel:
-    container_name: saggu-camel
+#    container_name: saggu-camel
     image: saggu/camel
     ports:
       - 8080:8080
@@ -48,7 +48,7 @@ services:
       - metrics
 
   prometheus:
-    container_name: prometheus
+#    container_name: prometheus
     image: prom/prometheus
     ports:
       - 9090:9090
@@ -63,7 +63,7 @@ services:
       - metrics
 
   grafana:
-    container_name: grafana
+#    container_name: grafana
     image: grafana/grafana
     ports:
       - 3000:3000
@@ -72,7 +72,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management
-    container_name: 'rabbitmq-ui'
+#    container_name: 'rabbitmq-ui'
     ports:
       - 5672:5672
       - 15672:15672
@@ -80,7 +80,7 @@ services:
   # Web: http://localhost:8161/ (admin/admin)
   activemq:
     image: rmohr/activemq
-    container_name: activemq
+#    container_name: activemq
     ports:
       - 61616:61616
       - 8161:8161
