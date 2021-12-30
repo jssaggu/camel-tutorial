@@ -43,7 +43,7 @@ public class HelloRouteJUnitAdviceTest extends CamelTestSupport {
         context.start();
 
         MockEndpoint mock = getMockEndpoint("mock:finishGreeting");
-        mock.expectedMessageCount(2);
+        mock.expectedMessageCount(1);
 
         template.sendBody("direct:greeting", "Team");
 
