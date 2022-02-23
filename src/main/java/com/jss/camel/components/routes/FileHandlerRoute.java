@@ -1,9 +1,8 @@
 package com.jss.camel.components.routes;
 
-import org.apache.camel.CamelContext;
 import org.apache.camel.Exchange;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.impl.DefaultCamelContext;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -17,10 +16,12 @@ import java.util.Optional;
 @Component
 @ConditionalOnProperty(name = "jss.camel.file.enabled", havingValue = "true")
 public class FileHandlerRoute extends RouteBuilder {
-    private static String TMP_DIR = System.getProperty("java.io.tmpdir");
-    public static final String FROM_DIR = TMP_DIR + "temp/?noop=true&";
-    public static final String TO_DIR = TMP_DIR + "temp/?";
-    public static final String APPEND = TMP_DIR + "fileExist=Append";
+    public static final String APPEND = "&fileExist=Append";
+    //    private static String TMP_DIR = System.getProperty("java.io.tmpdir");
+    private static String TMP_DIR = "/tmp/";
+    //    public static final String FROM_DIR = TMP_DIR + "camel/?noop=true&";
+    public static final String FROM_DIR = TMP_DIR + "camel/?";
+    public static final String TO_DIR = TMP_DIR + "camel/?";
 
     public static void main(String[] args) {
         boolean enabled = false;
@@ -33,14 +34,15 @@ public class FileHandlerRoute extends RouteBuilder {
 
     @Override
     public void configure() {
-        System.out.println("In file...");
-        CamelContext context = new DefaultCamelContext();
+        System.out.println("TMP_DIR: " + FROM_DIR);
         /**
          * Copy data from one file to another.
          * Default behaviour Overwrite
          */
         from("file://" + FROM_DIR + "fileName=camel-demo-in.txt")
-                .to("file://" + TO_DIR + "fileName=camel-demo-out.txt");
+                .log(LoggingLevel.ERROR, ">> ${body}")
+                .process(new MaskSensitiveInfo())
+                .to("file://" + TO_DIR + "fileName=camel-demo-out.txt" + APPEND);
 
         /**
          * Append data to an existing file...
