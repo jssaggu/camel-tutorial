@@ -1,0 +1,14 @@
+[
+  {
+    "name": "proxy_admin",
+    "listen": "toxiproxy:18474",
+    "upstream": "toxiproxy:8474",
+    "enabled": true
+  },
+  {
+    "name": "proxy_wiremock",
+    "listen": "toxiproxy:18080",
+    "upstream": "wiremock:8080",
+    "enabled": true
+  }
+]

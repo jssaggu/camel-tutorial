@@ -84,3 +84,21 @@ services:
     ports:
       - 61616:61616
       - 8161:8161
+
+  wiremock:
+    image: wiremock/wiremock:2.32.0
+    container_name: wiremock
+    ports:
+      - 8080:8080
+
+  toxiproxy:
+    image: shopify/toxiproxy
+    container_name: toxiproxy
+    ports:
+      - 18080:18080
+      - 8474:8474
+    volumes:
+      - ./config/toxiproxy.json:/config/toxiproxy.json
+    command: --config=/config/toxiproxy.json
+    depends_on:
+      - wiremock
