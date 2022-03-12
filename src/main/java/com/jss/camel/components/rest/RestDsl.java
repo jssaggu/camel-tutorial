@@ -6,12 +6,15 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
+import org.apache.camel.model.rest.RestParamType;
 import org.apache.camel.support.DefaultMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import static java.util.Objects.nonNull;
 import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
+import static org.apache.camel.model.rest.RestParamType.body;
+import static org.apache.camel.model.rest.RestParamType.path;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Component
@@ -43,12 +46,30 @@ public class RestDsl extends RouteBuilder {
     public void configure() throws Exception {
         restConfiguration()
                 .component("servlet")
-                .bindingMode(RestBindingMode.auto);
+                .bindingMode(RestBindingMode.json)
+                .dataFormatProperty("prettyPrint", "true")
+                .apiContextPath("/api-doc")
+                .apiProperty("api.title", "Saggu.UK Camel Rest APIs")
+                .apiProperty("api.version", "1.0")
+                .apiContextListing(true)
+        ;
 
         rest()
                 .consumes("application/json").produces("application/json")
-                .get("/weather/{city}").outType(WeatherDto.class).to("direct:get-weather-data")
-                .post("/weather").type(WeatherDto.class).to("direct:save-weather-data");
+                .get("/weather/{city}")
+                .responseMessage("200", "On good request")
+                .responseMessage("404", "For invalid requests")
+                .description("Get weather data for a given city")
+                .param()
+                    .name("city").type(path).description("The name of the city e.g. London").dataType("string")
+                .endParam()
+                .outType(WeatherDto.class).to("direct:get-weather-data")
+                .post("/weather")
+                .responseMessage("201", "When Created")
+                .description("Add weather for a city").type(WeatherDto.class)
+                .param().name("body").type(body).description("Payload for Weather")
+                .endParam()
+                .to("direct:save-weather-data");
 
         from("direct:get-weather-data")
                 .process(this::getWeatherDataAndSetToExchange)

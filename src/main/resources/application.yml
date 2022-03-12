@@ -24,7 +24,7 @@ jss:
         rest:
             enabled: false
         rest-dsl:
-            enabled: false
+            enabled: true
         rest-metrics:
             enabled: false
         kafka:

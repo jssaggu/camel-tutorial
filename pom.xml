@@ -144,6 +144,14 @@
             <version>${camel.version}</version>
         </dependency>
 
+        <!-- Open API-->
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-openapi-java</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        <!-- Open API-->
+
         <!-- Tests -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
