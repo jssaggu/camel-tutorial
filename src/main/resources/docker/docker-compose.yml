@@ -84,3 +84,16 @@ services:
     ports:
       - 61616:61616
       - 8161:8161
+
+  tomcat:
+    image: tomcat
+    container_name: tomcat
+    ports:
+      - 8080:8080
+    volumes:
+      - ./tomcat/tomcat-users.xml:/usr/local/tomcat/conf/tomcat-users.xml
+      - ./tomcat/context.xml:/tmp/context.xml
+      - ./tomcat/init.sh:/tmp/init.sh
+    # command: /bin/bash -c "mv /usr/local/tomcat/webapps /usr/local/tomcat/webapps2;mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps; cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml"
+    # Above command not working so run this after docker compose
+    # docker exec -i tomcat sh -c "/tmp/init.sh"
