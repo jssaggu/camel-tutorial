@@ -43,6 +43,10 @@ logging:
         root: INFO
         org.apache.camel: INFO
         com.jss.camel.components: INFO
+        org.apache.http: INFO
+        org.apache.commons.httpclient: INFO
+        org.apache.coyote: INFO
+
 ---
 spring:
     config:
