@@ -97,3 +97,15 @@ services:
     # command: /bin/bash -c "mv /usr/local/tomcat/webapps /usr/local/tomcat/webapps2;mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps; cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml"
     # Above command not working so run this after docker compose
     # docker exec -i tomcat sh -c "/tmp/init.sh"
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: postgres
+      #URL	jdbc:postgresql://localhost:5432/postgres
