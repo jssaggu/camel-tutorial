@@ -8,7 +8,6 @@ camel:
     springboot:
         routes-include-pattern: classpath:camel-routes/*
 
-
 jss:
     camel:
         hello:
@@ -18,7 +17,7 @@ jss:
         file:
             enabled: false
         rabbitmq:
-            enabled: false
+            enabled: true
         wiretap:
             enabled: false
         rest:
@@ -35,6 +34,10 @@ jss:
             enabled: false
         testcontainers:
             enabled: false
+
+rabbitmq:
+    concurrent-consumers: 3
+    thread-pool-size: 20
 
 metrics: 0 */1 * * * *
 
