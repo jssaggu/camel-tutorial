@@ -14,6 +14,9 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
+import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.CONNECTION_MAX_PER_ROUTE;
+import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.CONNECTION_MAX_TOTAL;
+import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.REST_TIMEOUT_MS;
 import static java.lang.Integer.valueOf;
 
 @Configuration
@@ -48,8 +51,8 @@ public class RabbitmqConfiguration {
     public HttpClientConfigurer ipsRestHttpClientConfigurer() {
         System.out.println("In ipsRestHttpClientConfigurer");
 
-        int httpSocketTimeoutMillis = 20000;
-        int httpConnectionTimeoutMillis = 20000;
+        int httpSocketTimeoutMillis = REST_TIMEOUT_MS;
+        int httpConnectionTimeoutMillis = REST_TIMEOUT_MS;
 
         SocketConfig socketConfig = SocketConfig
                 .custom()
@@ -64,9 +67,10 @@ public class RabbitmqConfiguration {
 
         return (HttpClientBuilder clientBuilder) -> {
             PoolingHttpClientConnectionManager conManager = new PoolingHttpClientConnectionManager();
-            conManager.setMaxTotal(200);
-            conManager.setDefaultMaxPerRoute(200);
+            conManager.setMaxTotal(CONNECTION_MAX_TOTAL);
+            conManager.setDefaultMaxPerRoute(CONNECTION_MAX_PER_ROUTE);
             clientBuilder.setConnectionManager(conManager);
+
 //            clientBuilder.setMaxConnPerRoute(200);
             clientBuilder.disableAutomaticRetries();
             clientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
