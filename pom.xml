@@ -48,6 +48,14 @@
             <version>0.8.1</version>
         </dependency>
 
+        <!-- SAGA -->
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-saga-starter</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+        <!-- SAGA -->
+
         <!-- JMS -->
         <dependency>
             <groupId>org.apache.camel</groupId>
