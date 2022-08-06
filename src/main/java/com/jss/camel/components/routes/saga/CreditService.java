@@ -36,7 +36,7 @@ public class CreditService {
                 "Customer [Id:" + order.getCustomerId() + "] [Current Balance: " + customerAccount.get(order.getCustomerId()) + "]");
     }
 
-    public void refundCredit(Exchange exchange){
+    public void refundPayment(Exchange exchange){
         String id = exchange.getIn().getHeader("id", String.class);
         String customerId = exchange.getIn().getHeader("customerId", String.class);
 

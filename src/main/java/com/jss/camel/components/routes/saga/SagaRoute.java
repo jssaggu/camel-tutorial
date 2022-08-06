@@ -24,16 +24,18 @@ public class SagaRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        onException(Exception.class)
-                .handled(false)
-                .log(LoggingLevel.ERROR, "${exception}")
-        ;
-
         //Step 1
         getContext().addService(new InMemorySagaService());
 
-        from("direct:buy")
-                .process(exchange -> exchange.getMessage().setHeader("id", UUID.randomUUID().toString()))
+        from("direct:order")
+                .process(exchange ->
+                        {
+                            exchange.getMessage().setHeader("id", UUID.randomUUID().toString());
+                            OrderDto order = exchange.getMessage().getBody(OrderDto.class);
+                            order.setOrderId(exchange.getMessage().getHeader("id", String.class));
+                            exchange.getMessage().setBody(order);
+                        }
+                )
                 .log(LoggingLevel.INFO, "Id: ${header.id}, Order Received: ${body}")
                 .saga()
                 .to("direct:newOrder")
@@ -50,14 +52,24 @@ public class SagaRoute extends RouteBuilder {
                 .bean(orderManagerService, "newOrder")
                 .log("ID: ${header.id}, Order ${body} created");
 
-        from("direct:makePayment")
-                .bean(creditService, "makePayment")
-                .log("ID: ${header.id}, Credit ${header.amount} reserved in action ${body}");
-
+        // compensation
         from("direct:cancelOrder")
                 .log("ID: ${header.id}, Order ${body} cancelling")
                 .bean(orderManagerService, "cancelOrder")
                 .log("ID: ${header.id}, Order ${body} Cancelled");
+
+        from("direct:makePayment")
+                .saga()
+                .propagation(SagaPropagation.MANDATORY)
+                .option("id", header("id"))
+                .option("body", body())
+                .option("customerId", simple("${body.customerId}"))
+                .compensation("direct:refundPayment")
+                .bean(creditService, "makePayment");
+
+        // compensation
+        from("direct:refundPayment")
+                .bean(creditService, "refundPayment");
 
         from("direct:shipOrder")
                 .saga()
@@ -65,14 +77,15 @@ public class SagaRoute extends RouteBuilder {
                 .option("id", header("id"))
                 .option("body", body())
                 .option("customerId", simple("${body.customerId}"))
-                .compensation("direct:refundCredit")
-                .bean(orderManagerService, "shipOrder")
-                .log(LoggingLevel.INFO, "prepareOrder ${body}")
-                .log("ID: ${header.id}, Order ${body} sent for shipping");
+                .compensation("direct:cancelShipping")
+                .completion("direct:completeShipping")
+                .bean(orderManagerService, "shipOrder");
 
         // compensation
-        from("direct:refundCredit")
-                .bean(creditService, "refundCredit")
-                .log("ID: ${header.id}, Refund action ${body} refunded");
+        from("direct:cancelShipping")
+                .bean(orderManagerService, "cancelShipping");
+
+        from("direct:completeShipping")
+                .bean(orderManagerService, "completeShipping");
     }
 }

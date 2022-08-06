@@ -1,11 +1,15 @@
 package com.jss.camel.components.routes.saga;
 
+import io.swagger.v3.oas.models.links.Link;
+import org.apache.camel.Exchange;
+import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -34,6 +38,12 @@ public class OrderController extends RouteBuilder {
                 .apiContextListing(true)
         ;
 
+        onException(Exception.class)
+                .handled(true)
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
+                .setHeader(Exchange.CONTENT_TYPE, constant("text/json"))
+                .setBody().simple("${exception.message}");
+
         rest()
                 .consumes("application/json").produces("application/json")
                 .post("/orders")
@@ -41,18 +51,19 @@ public class OrderController extends RouteBuilder {
                 .description("Create a new order").type(OrderDto.class)
                 .param().name("body").type(body).description("Payload for an Order")
                 .endParam()
-                .to("direct:buy");
+                .to("direct:order")
+                ;
 
         rest()
                 .produces("application/json")
                 .get("/databases")
                 .route()
                 .setBody(e -> {
-                    Map<String, Object> databases = new HashMap<>();
-                    databases.put("Orders", orderManagerService.getOrders());
-                    databases.put("OrderStatus", orderManagerService.getOrderStatusMap());
+                    Map<String, Object> databases = new LinkedHashMap<>();
                     databases.put("Customer Account", creditService.getCustomerAccount());
                     databases.put("Order Amount", creditService.getOrderAmount());
+                    databases.put("Order Status", orderManagerService.getOrderStatusMap());
+                    databases.put("Z Orders", orderManagerService.getOrders());
                     return databases;
                 })
         ;

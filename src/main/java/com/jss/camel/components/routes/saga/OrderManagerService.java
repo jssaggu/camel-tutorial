@@ -32,10 +32,24 @@ public class OrderManagerService {
         OrderDto order = orders.get(id);
         System.out.println("Preparing to ship Order. ID: [" + order + "]");
         if(order.getQuantity() > 10){
-            orderStatusMap.put(id, "Cancelled");
             throw new RuntimeException("Too many items to ship. Can't ship.");
         }
-        orderStatusMap.put(id, "Shipped");
         System.out.println("Shipped Order. ID: [" + orders.get(id) + "]");
+    }
+
+    public void cancelShipping(Exchange exchange) {
+        String id = exchange.getIn().getHeader("id", String.class);
+        OrderDto order = orders.get(id);
+        System.out.println("Cancelling ship Order. ID: [" + order + "]");
+        orderStatusMap.put(id, "Cancelled");
+        System.out.println("Cancelled Shipping Order. ID: [" + orders.get(id) + "]");
+
+    }
+
+    public void completeShipping(Exchange exchange) {
+        String id = exchange.getIn().getHeader("id", String.class);
+        OrderDto order = orders.get(id);
+        System.out.println("Completing shipping Order. ID: [" + order + "]");
+        orderStatusMap.put(id, "Shipped");
     }
 }
