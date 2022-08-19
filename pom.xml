@@ -16,9 +16,9 @@
 
     <properties>
         <!-- <java.version>11</java.version>-->
-        <junit.platform.version>1.8.2</junit.platform.version>
-        <camel.version>3.14.0</camel.version>
-        <testcontainers.version>1.16.3</testcontainers.version>
+        <junit.platform.version>1.9.0</junit.platform.version>
+        <camel.version>3.18.1</camel.version>
+        <testcontainers.version>1.17.3</testcontainers.version>
     </properties>
 
     <build>
@@ -125,7 +125,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-            <version>1.18.22</version>
+            <version>1.18.24</version>
         </dependency>
 
         <dependency>
@@ -177,7 +177,7 @@
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>5.8.2</version>
+            <version>5.9.0</version>
             <scope>test</scope>
         </dependency>
 
