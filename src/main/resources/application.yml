@@ -24,7 +24,7 @@ jss:
         rest:
             enabled: false
         rest-dsl:
-            enabled: true
+            enabled: false
         rest-metrics:
             enabled: false
         kafka:
@@ -34,6 +34,8 @@ jss:
         jms:
             enabled: false
         testcontainers:
+            enabled: false
+        saga:
             enabled: false
 
 metrics: 0 */1 * * * *
