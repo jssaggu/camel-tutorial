@@ -2,6 +2,7 @@ package com.jss.camel.components.rabbitmq;
 
 import com.jss.CamelApplication;
 import org.apache.camel.test.spring.junit5.CamelSpringBootTest;
+import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.core.Message;
@@ -30,7 +31,7 @@ class WeatherRouteTest {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Test
+//    @Test
     void sendAndReceiveMessage() {
         rabbitTemplate.send(EXCHANGE_WEATHER, QUEUE_WEATHER, message());
 
