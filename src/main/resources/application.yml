@@ -36,7 +36,7 @@ jss:
         testcontainers:
             enabled: false
         saga:
-            enabled: true
+            enabled: false
 
 metrics: 0 */1 * * * *
 
