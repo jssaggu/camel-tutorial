@@ -1,13 +1,29 @@
 server:
     port: 8080
 
+    tomcat:
+        threads:
+            max: 50
+            min-spare: 2
+        max-connections: 10
+
 camel:
     servlet:
         mapping:
             context-path: /services/*
     springboot:
         routes-include-pattern: classpath:camel-routes/*
-
+    thread-pool:
+        pool-size: 5
+        config:
+            max-pool-size: 5
+            pool-size: 5
+    component:
+        rabbitmq:
+            prefetch-count: 1
+            prefetch-enabled: true
+            prefetch-global: false
+            prefetch-size: 1
 
 jss:
     camel:

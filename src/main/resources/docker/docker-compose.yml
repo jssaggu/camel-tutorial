@@ -86,6 +86,7 @@ services:
       - 8161:8161
 
   tomcat:
+    #image: tomcat:8.5
     image: tomcat
     container_name: tomcat
     ports:
@@ -97,6 +98,7 @@ services:
     # command: /bin/bash -c "mv /usr/local/tomcat/webapps /usr/local/tomcat/webapps2;mv /usr/local/tomcat/webapps.dist /usr/local/tomcat/webapps; cp /tmp/context.xml /usr/local/tomcat/webapps/manager/META-INF/context.xml"
     # Above command not working so run this after docker compose
     # docker exec -i tomcat sh -c "/tmp/init.sh"
+    #To copy a war file: docker cp camel-tutorial.war tomcat://usr/local/tomcat/webapps/
 
   postgres:
     image: postgres

@@ -26,11 +26,11 @@ public class WeatherRoute extends RouteBuilder {
 
         //Called by Rabbit on message in weather queue
         /*
-        {
-             "city": "London",
-             "temp": "20",
-             "unit": "C"
-         }
+{
+ "city": "London",
+ "temp": "20",
+ "unit": "C"
+}
         */
         fromF(RABBIT_URI, QUEUE_WEATHER, QUEUE_WEATHER)
                 .log(ERROR, "Before Enrichment: ${body}")

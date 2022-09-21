@@ -14,10 +14,12 @@
     <name>camel-tutorial</name>
     <description>Apache Camel with Spring Boot</description>
 
+<!--    <packaging>war</packaging>-->
+
     <properties>
         <!-- <java.version>11</java.version>-->
         <junit.platform.version>1.9.0</junit.platform.version>
-        <camel.version>3.18.1</camel.version>
+        <camel.version>3.14.0</camel.version>
         <testcontainers.version>1.17.3</testcontainers.version>
     </properties>
 
@@ -27,7 +29,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.3.2</version>
+            </plugin>
         </plugins>
+        <finalName>${artifactId}</finalName>
     </build>
 
     <dependencies>
@@ -40,6 +48,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
