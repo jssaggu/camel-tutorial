@@ -17,9 +17,9 @@
 <!--    <packaging>war</packaging>-->
 
     <properties>
-        <!-- <java.version>11</java.version>-->
+         <java.version>17</java.version>
         <junit.platform.version>1.9.0</junit.platform.version>
-        <camel.version>3.14.0</camel.version>
+        <camel.version>3.15.0</camel.version>
         <testcontainers.version>1.17.3</testcontainers.version>
     </properties>
 
@@ -35,14 +35,25 @@
                 <version>3.3.2</version>
             </plugin>
         </plugins>
-        <finalName>${artifactId}</finalName>
+        <finalName>${project.artifactId}</finalName>
     </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.apache.camel.springboot</groupId>
+                <artifactId>camel-spring-boot-dependencies</artifactId>
+                <version>${camel.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-spring-boot-starter</artifactId>
-            <version>${camel.version}</version>
         </dependency>
 
         <dependency>
