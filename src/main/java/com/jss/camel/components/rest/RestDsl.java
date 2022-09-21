@@ -51,7 +51,6 @@ public class RestDsl extends RouteBuilder {
                 .apiContextPath("/api-doc")
                 .apiProperty("api.title", "Saggu.UK Camel Rest APIs")
                 .apiProperty("api.version", "1.0")
-                .apiContextListing(true)
         ;
 
         rest()

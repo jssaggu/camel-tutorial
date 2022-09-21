@@ -35,7 +35,7 @@ public class OrderController extends RouteBuilder {
                 .dataFormatProperty("prettyPrint", "true")
                 .apiProperty("api.title", "Saga Order Creator")
                 .apiProperty("api.version", "1.0")
-                .apiContextListing(true)
+                //.apiContextListing(true)
         ;
 
         onException(Exception.class)
@@ -57,7 +57,9 @@ public class OrderController extends RouteBuilder {
         rest()
                 .produces("application/json")
                 .get("/databases")
-                .route()
+                .to("direct:databases");
+
+                from("direct:databases")
                 .setBody(e -> {
                     Map<String, Object> databases = new LinkedHashMap<>();
                     databases.put("Customer Account", creditService.getCustomerAccount());

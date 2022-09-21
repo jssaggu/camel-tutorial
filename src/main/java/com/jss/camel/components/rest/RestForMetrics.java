@@ -23,8 +23,9 @@ public class RestForMetrics extends RouteBuilder {
         rest()
                 .consumes("application/json").produces("application/json")
                 .get("/dates")
-                .route().routeId("Rest-Dates")
-                .setBody(e -> "Date: " + new Date().toString())
-                .endRest();
+                .to("direct:rest-dates");
+
+                from("direct:rest-dates").routeId("Rest-Dates")
+                .setBody(e -> "Date: " + new Date().toString());
     }
 }
