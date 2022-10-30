@@ -20,10 +20,11 @@ camel:
             pool-size: 5
     component:
         rabbitmq:
-            prefetch-count: 1
-            prefetch-enabled: true
-            prefetch-global: false
-            prefetch-size: 1
+            prefetchEnabled: true
+            prefetchGlobal: false
+            prefetchSize: 0
+            prefetchCount: 1
+
 
 jss:
     camel:
