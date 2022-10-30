@@ -20,7 +20,7 @@
          <java.version>17</java.version>
         <junit.platform.version>1.9.1</junit.platform.version>
         <camel.version>3.19.0</camel.version>
-        <testcontainers.version>1.17.3</testcontainers.version>
+        <testcontainers.version>1.17.5</testcontainers.version>
     </properties>
 
     <build>
