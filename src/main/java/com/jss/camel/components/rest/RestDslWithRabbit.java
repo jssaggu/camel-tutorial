@@ -62,6 +62,6 @@ public class RestDslWithRabbit extends RouteBuilder {
     }
 
     private void getWeatherDataAndSetToExchange(Exchange exchange) {
-        RestDsl.getCity(exchange, this.weatherDataProvider);
+        RestDslService.getCity(exchange, this.weatherDataProvider);
     }
 }

@@ -14,14 +14,21 @@ import org.springframework.stereotype.Component;
 //@Component
 public class RouteTester extends RouteBuilder {
 
+    static int httpSocketTimeoutMillis = 5_000;
+    static int httpConnectionTimeoutMillis = 5_000;
+
     @Override
     public void configure() throws Exception {
         restConfiguration()
                 .producerComponent("http")
                 .component("servlet").bindingMode(RestBindingMode.off);
 
-        from("timer:insurance?period=10")
-                .to("http://localhost:8080/api/hello?httpClientConfigurer=myRestHttpClientConfigurer")
+        from("timer:insurance?period=10000")
+                .log(LoggingLevel.INFO, "Calling Hello API now")
+                .to("http://localhost:8080/hello?" +
+                        "sleepTimeMills=" + (httpSocketTimeoutMillis*2) +
+                        "&httpClientConfigurer=myRestHttpClientConfigurer" +
+                        "")
                 .log(LoggingLevel.ERROR, "Response: ${body}")
         ;
     }
@@ -29,8 +36,6 @@ public class RouteTester extends RouteBuilder {
     @Bean
     public HttpClientConfigurer myRestHttpClientConfigurer() {
 
-        int httpSocketTimeoutMillis = 5_000;
-        int httpConnectionTimeoutMillis = 5_000;
         SocketConfig socketConfig = SocketConfig
                 .custom()
                 .setSoTimeout(httpSocketTimeoutMillis)
