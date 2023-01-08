@@ -21,6 +21,7 @@
         <junit.platform.version>1.9.1</junit.platform.version>
         <camel.version>3.20.0</camel.version>
         <testcontainers.version>1.17.6</testcontainers.version>
+        <activemq.version>5.16.5</activemq.version>
     </properties>
 
     <build>

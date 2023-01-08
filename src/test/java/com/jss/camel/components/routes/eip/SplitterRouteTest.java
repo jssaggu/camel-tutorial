@@ -19,7 +19,8 @@ public class SplitterRouteTest extends CamelTestSupport {
         mock.expectedBodiesReceived("A", "B", "C");
 //        List<String> body = Arrays.asList("A", "B", "C");
         template.sendBody("direct:start", "A#B#C");
-        assertMockEndpointsSatisfied();
+
+        mock.assertIsSatisfied();
     }
 
     @Test
@@ -39,7 +40,7 @@ public class SplitterRouteTest extends CamelTestSupport {
 
         template.sendBody("direct:customerOrderAggregate", "A,B,C");
 
-        assertMockEndpointsSatisfied();
+        mock.assertIsSatisfied();
     }
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
