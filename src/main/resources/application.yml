@@ -55,6 +55,8 @@ jss:
             enabled: false
         saga:
             enabled: false
+        circuit-breaker:
+            enabled: false
 
 metrics: 0 */1 * * * *
 

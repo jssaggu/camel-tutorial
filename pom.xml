@@ -76,6 +76,12 @@
             <scope>provided</scope>
         </dependency>
 
+        <!-- -Circuit Breaker -->
+        <dependency>
+        <groupId>org.apache.camel</groupId>
+        <artifactId>camel-resilience4j</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>ch.qos.cal10n</groupId>
             <artifactId>cal10n-api</artifactId>
