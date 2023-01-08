@@ -40,8 +40,9 @@ jss:
             enabled: false
         rest:
             enabled: false
+        #Weather
         rest-dsl:
-            enabled: false
+            enabled: true
         rest-metrics:
             enabled: false
         kafka:
