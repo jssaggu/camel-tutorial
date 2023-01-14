@@ -38,11 +38,11 @@ jss:
             enabled: false
         wiretap:
             enabled: false
-        rest:
-            enabled: false
+        rest-java-dsl:
+            enabled: true
         #Weather
         rest-dsl:
-            enabled: true
+            enabled: false
         rest-metrics:
             enabled: false
         kafka:

@@ -1,25 +1,23 @@
 package com.jss.camel.components.rest;
 
+import com.jss.camel.dto.TransactionDto;
 import com.jss.camel.dto.WeatherDto;
 import org.apache.camel.Exchange;
-import org.apache.camel.Message;
+import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.support.DefaultMessage;
+import org.apache.camel.model.dataformat.JsonLibrary;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-
-import static org.apache.camel.Exchange.HTTP_RESPONSE_CODE;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-
 @Component
-@ConditionalOnProperty(name = "jss.camel.rest.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "jss.camel.rest-java-dsl.enabled", havingValue = "true")
 public class RestJavaDsl extends RouteBuilder {
 
     private final WeatherDataProvider weatherDataProvider;
+    private final RestDslService restDslService;
 
-    public RestJavaDsl() {
+    public RestJavaDsl(RestDslService restDslService) {
+        this.restDslService = restDslService;
         this.weatherDataProvider = new WeatherDataProvider();
     }
 
@@ -28,9 +26,26 @@ public class RestJavaDsl extends RouteBuilder {
         from("rest:get:javadsl/weather/{city}?produces=application/json")
                 .outputType(WeatherDto.class)
                 .process(this::getWeatherDataAndSetToExchange);
+
+        /**
+         * Method Post
+         * Payload Sample:
+         {
+         "city": "New Delhi",
+         "temp": "48",
+         "unit": "C"
+         }
+         */
+        from("rest:post:javadsl/weather?consumes=application/json")
+                .log(LoggingLevel.ERROR, "Body: ${body}")
+                //.unmarshal().json(JsonLibrary.Jackson, WeatherDto.class)
+                .inputType("java:com.jss.camel.dto.WeatherDto")
+                .bean(restDslService, "saveWeatherData")
+        ;
     }
 
     private void getWeatherDataAndSetToExchange(Exchange exchange) {
         RestDslService.getCity(exchange, this.weatherDataProvider);
     }
+
 }
