@@ -38,8 +38,7 @@ public class RestJavaDsl extends RouteBuilder {
          */
         from("rest:post:javadsl/weather?consumes=application/json")
                 .log(LoggingLevel.ERROR, "Body: ${body}")
-                //.unmarshal().json(JsonLibrary.Jackson, WeatherDto.class)
-                .inputType("java:com.jss.camel.dto.WeatherDto")
+                .unmarshal().json(JsonLibrary.Jackson, WeatherDto.class)
                 .bean(restDslService, "saveWeatherData")
         ;
     }
