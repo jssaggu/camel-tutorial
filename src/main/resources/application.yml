@@ -39,7 +39,7 @@ jss:
         wiretap:
             enabled: false
         rest-java-dsl:
-            enabled: true
+            enabled: false
         #Weather
         rest-dsl:
             enabled: false
