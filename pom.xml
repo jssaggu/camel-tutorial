@@ -18,7 +18,7 @@
 
     <properties>
         <java.version>17</java.version>
-        <camel.version>3.20.1</camel.version>
+        <camel.version>3.20.2</camel.version>
         <junit.platform.version>1.9.2</junit.platform.version>
         <testcontainers.version>1.17.6</testcontainers.version>
         <activemq.version>5.16.5</activemq.version>
