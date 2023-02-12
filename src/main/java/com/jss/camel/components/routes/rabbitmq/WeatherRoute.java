@@ -5,13 +5,18 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
+import org.apache.camel.support.DefaultExchange;
 import org.apache.camel.support.DefaultMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.apache.camel.LoggingLevel.ERROR;
+import static org.apache.camel.LoggingLevel.INFO;
 
 @Component
 @ConditionalOnProperty(name = "jss.camel.rabbitmq.enabled", havingValue = "true")
@@ -33,6 +38,7 @@ public class WeatherRoute extends RouteBuilder {
 }
         */
         fromF(RABBIT_URI, QUEUE_WEATHER, QUEUE_WEATHER)
+                .log(INFO, "Headers: ${headers}")
                 .log(ERROR, "Before Enrichment: ${body}")
                 .unmarshal().json(JsonLibrary.Jackson, WeatherDto.class)
                 .process(this::enrichWeatherDto)

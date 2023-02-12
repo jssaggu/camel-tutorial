@@ -76,6 +76,24 @@ services:
     ports:
       - 5672:5672
       - 15672:15672
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=secret
+#      - RABBITMQ_PLUGINS_DIR=rabbitmq/plugins:/plugins
+      - RABBITMQ_PLUGINS_DIR=./rabbitmq/plugins:/opt/rabbitmq/plugins
+      - RABBITMQ_PLUGINS=rabbitmq_management,rabbitmq_message_timestamp
+#    volumes:
+#      - ./rabbitmq/plugins:/opt/rabbitmq/plugins
+
+  rabbitmq-with-timestamp:
+    image: rabbitmq-with-timestamp:latest
+    container_name: 'rabbitmq-with-timestamp'
+    ports:
+      - 5672:5672
+      - 15672:15672
+#    environment:
+#      - RABBITMQ_PLUGINS=rabbitmq_management,rabbitmq_message_timestamp
+#    volumes:
+#      - ./rabbitmq/rabbitmq.config:/etc/rabbitmq/rabbitmq.config
 
   # Web: http://localhost:8161/ (admin/admin)
   activemq:
