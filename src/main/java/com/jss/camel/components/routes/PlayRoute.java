@@ -3,7 +3,6 @@ package com.jss.camel.components.routes;
 import com.rabbitmq.client.ConnectionFactory;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,9 +31,8 @@ public class PlayRoute extends RouteBuilder {
         from("direct:sleeper")
 
                 .process(e -> {
-                    int before = counterReceived.incrementAndGet();
                     SECONDS.sleep(1);
-                    System.out.print("\rSent [" + counterSent + "] Received Before [" + before + "] After [" + counterReceived.get() + "]");
+                    System.out.print("\rSent [" + counterSent + "] Received [" + counterReceived.incrementAndGet() + "]");
                 })
         ;
     }
