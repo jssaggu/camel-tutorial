@@ -35,7 +35,7 @@ jss:
         file:
             enabled: false
         rabbitmq:
-            enabled: true
+            enabled: false
         wiretap:
             enabled: false
         rest-java-dsl:

@@ -1,8 +1,6 @@
 package com.jss.camel.components.routes;
 
-import com.jss.camel.components.routes.temp.JSSBean;
 import com.rabbitmq.client.ConnectionFactory;
-import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -11,32 +9,40 @@ import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.apache.camel.LoggingLevel.ERROR;
 
 //@Component
 public class PlayRoute extends RouteBuilder {
 
-    AtomicInteger counter = new AtomicInteger();
+    AtomicInteger counterSent = new AtomicInteger();
+    AtomicInteger counterReceived = new AtomicInteger();
 
     @Override
     public void configure() throws Exception {
         from("timer:time?period=100")
-                .threads(2, 50)
-                .process(exchange -> exchange.getIn().setBody(new Date()))
-//                .process(exchange -> exchange.getIn().getHeaders())
-//                .bean(HelloBean.class, "get2")
-//                .log(ERROR, ">> ${header.firedTime} >> ${body}")
+                .process(exchange ->
+                {
+                    exchange.getIn().setBody(new Date());
+                    counterSent.incrementAndGet();
+                })
+                .to("seda:load");
+
+        from("seda:load")
                 .to("direct:sleeper");
 
         from("direct:sleeper")
 
                 .process(e -> {
-                    int c = counter.incrementAndGet();
-                    System.out.println("[" + c + "] Sleeping...");
-                    SECONDS.sleep(10);
-                    System.out.println("[" + c + "] Up...");
+                    int before = counterReceived.incrementAndGet();
+                    SECONDS.sleep(1);
+                    System.out.print("\rSent [" + counterSent + "] Received Before [" + before + "] After [" + counterReceived.get() + "]");
                 })
         ;
+    }
+
+    @Bean("jssSagguBean")
+    public ConnectionFactory jsSagguBean() {
+//        return new JSSBean("Using jsSagguBean");
+        return new ConnectionFactory();
     }
 
     private static class HelloBean {
@@ -53,11 +59,5 @@ public class PlayRoute extends RouteBuilder {
             System.out.println("Hello Bean2..." + firedTime);
             return "HelloBean2::" + new Date();
         }
-    }
-
-    @Bean("jssSagguBean")
-    public ConnectionFactory jsSagguBean() {
-//        return new JSSBean("Using jsSagguBean");
-        return new ConnectionFactory();
     }
 }
