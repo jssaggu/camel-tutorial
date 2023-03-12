@@ -35,7 +35,7 @@ jss:
         file:
             enabled: false
         rabbitmq:
-            enabled: false
+            enabled: true
         rabbitmq-throttler:
             enabled: false
         wiretap:
