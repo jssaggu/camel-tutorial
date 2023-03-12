@@ -35,3 +35,5 @@ services:
     - 3000:3000
     networks:
       - metrics
+    volumes:
+      - ./grafana/:/etc/grafana/provisioning/

@@ -1,5 +1,7 @@
+
+
 server:
-    port: 8080
+    port: 8081
 
     tomcat:
         threads:
@@ -25,7 +27,6 @@ camel:
             prefetchSize: 0
             prefetchCount: 1
 
-
 jss:
     camel:
         hello:
@@ -35,7 +36,7 @@ jss:
         file:
             enabled: false
         rabbitmq:
-            enabled: false
+            enabled: true
         rabbitmq-throttler:
             enabled: false
         wiretap:
@@ -45,6 +46,8 @@ jss:
         #Weather
         rest-dsl:
             enabled: false
+        rest-dsl-rabbit:
+            enabled: true
         rest-metrics:
             enabled: false
         kafka:
@@ -71,6 +74,10 @@ logging:
         org.apache.commons.httpclient: INFO
         org.apache.coyote: INFO
 
+spring:
+    profiles:
+        include: management
+
 ---
 spring:
     config:
@@ -93,12 +100,34 @@ management:
                     - health
                     - prometheus
                     - liveness
+                    - metrics
+                    - micrometer-camel-message-history
+                    - caches
+                    - loggers
+                    - startup-properties
+                    - startup-state
     endpoint:
         health:
-            show-details: never
+            show-details: "ALWAYS"
             probes:
                 enabled: true
-
-            group:
-                readiness:
-                    include: "*"
+    metrics:
+        data:
+            repository:
+                autotime:
+                    percentiles-histogram: true
+                    percentiles: 0.5, 0.75, 0.9, 0.99
+        distribution:
+            percentiles:
+                CamelRoutePolicy: 0.5, 0.75, 0.9, 0.99
+            percentiles-histogram:
+                camelRoutePolicy: true
+#    endpoint:
+#        health:
+#            show-details: never
+#            probes:
+#                enabled: true
+#
+#            group:
+#                readiness:
+#                    include: "*"

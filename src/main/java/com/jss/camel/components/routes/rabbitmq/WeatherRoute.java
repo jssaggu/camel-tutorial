@@ -3,7 +3,9 @@ package com.jss.camel.components.routes.rabbitmq;
 import com.jss.camel.dto.WeatherDto;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
+import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.impl.engine.DefaultRoute;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.support.DefaultExchange;
 import org.apache.camel.support.DefaultMessage;
@@ -43,8 +45,27 @@ public class WeatherRoute extends RouteBuilder {
                 .unmarshal().json(JsonLibrary.Jackson, WeatherDto.class)
                 .process(this::enrichWeatherDto)
                 .log(ERROR, "After Enrichment: ${body}")
+                .process(p -> {
+                    System.out.println("Route Suspending Check...");
+                    if(p.getMessage().getBody().toString().contains("suspend")) {
+                        DefaultRoute route = (DefaultRoute) p.getContext().getRoute("from-1");
+                        System.out.println("Route Suspending...");
+                        if(route.isStopped()) {
+                            System.out.println("Route Already Suspended...");
+                        }
+
+                        if(route.isStopping()) {
+                            System.out.println("Route Already Suspending...");
+                        }
+                        if(!route.isStoppingOrStopped()) {
+                            route.stop();
+                            System.out.println("Route Suspended...");
+                        }
+                    }
+                })
                 .marshal().json(JsonLibrary.Jackson, WeatherDto.class)
-                .toF(RABBIT_URI, QUEUE_WEATHER_EVENTS, QUEUE_WEATHER_EVENTS)
+                .log(ERROR, "All Done. ${body}")
+                //.toF(RABBIT_URI, QUEUE_WEATHER_EVENTS, QUEUE_WEATHER_EVENTS)
         //.to("file:///Users/jasvinder.saggu/projects/temp/camel-demos/?fileName=weather-events.txt&fileExist=Append")
         ;
 

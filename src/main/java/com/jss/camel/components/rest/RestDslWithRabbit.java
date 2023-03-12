@@ -11,6 +11,7 @@ import org.apache.camel.support.DefaultMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.QUEUE_WEATHER;
 import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.RABBIT_URI;
 
 @Component
@@ -41,14 +42,19 @@ public class RestDslWithRabbit extends RouteBuilder {
         ;
 
         from("direct:save-weather-data")
-                .process(this::saveWeatherData)
-                .wireTap("direct:write-to-rabbit")
-                .end()
+                .routeId("from-1")
+//                .process(this::saveWeatherData)
+//                .wireTap("direct:write-to-rabbit")
+                .to("direct:write-to-rabbit")
+                //.end()
         ;
 
         from("direct:write-to-rabbit")
                 .marshal().json(JsonLibrary.Jackson, WeatherDto.class)
-                .toF(RABBIT_URI, "weather-data", "weather-data");
+                .process(p -> {
+                    System.out.println("JSS here");
+                })
+                .toF(RABBIT_URI, QUEUE_WEATHER, QUEUE_WEATHER);
     }
 
     private void saveWeatherData(Exchange exchange) {
