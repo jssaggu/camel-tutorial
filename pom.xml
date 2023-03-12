@@ -21,7 +21,7 @@
         <camel.version>3.20.2</camel.version>
         <junit.platform.version>1.9.2</junit.platform.version>
         <testcontainers.version>1.17.6</testcontainers.version>
-        <activemq.version>5.16.5</activemq.version>
+        <activemq.version>5.16.6</activemq.version>
         <lombok.version>1.18.26</lombok.version>
         <cal10n-api>0.8.1</cal10n-api>
         <junit-vintage-engine>5.9.2</junit-vintage-engine>
