@@ -1,4 +1,4 @@
-package com.jss.camel.components.rest;
+package com.jss.camel.components.routes;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

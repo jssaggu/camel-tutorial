@@ -29,8 +29,10 @@ public class RestDslService {
             Message message = new DefaultMessage(exchange.getContext());
             message.setBody(currentWeather);
             exchange.setMessage(message);
+            log.info("Weather Data found for {}", city);
         } else {
             exchange.getMessage().setHeader(HTTP_RESPONSE_CODE, NOT_FOUND.value());
+            log.warn("Weather Data not found for {}", city);
         }
     }
 

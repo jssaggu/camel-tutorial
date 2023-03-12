@@ -9,7 +9,11 @@ import java.util.Random;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-
+/**
+ * This class can be used as a ping service.
+ * It takes sleepTimeMills param which is used to sleep the request for a random ms between 0 and sleepTimeMills.
+ * e.g. http://localhost:8080/hello?sleepTimeMills=1000
+ */
 @RestController
 public class HelloController {
 

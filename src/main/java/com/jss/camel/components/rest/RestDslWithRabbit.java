@@ -1,23 +1,24 @@
 package com.jss.camel.components.rest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jss.camel.dto.WeatherDto;
 import org.apache.camel.Exchange;
-import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.model.rest.RestBindingMode;
-import org.apache.camel.support.DefaultMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.RABBIT_URI;
 
+/**
+ * This component is used to test Rest DSL and RabbitMQ together.
+ * Client can invoke the GET and POST operations on the following URI: http://localhost:8080/services/weather/{city}
+ * <p>
+ * POST will store data in memory and will also publish an event to RabbitMQ weather-data queue.
+ */
 @Component
-@ConditionalOnProperty(name = "jss.camel.rest-dsl-rabbit.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "jss.camel.rabbitmq.enabled", havingValue = "true")
 public class RestDslWithRabbit extends RouteBuilder {
-
-    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private final WeatherDataProvider weatherDataProvider;
 

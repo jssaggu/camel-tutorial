@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import static org.apache.camel.model.rest.RestParamType.body;
 import static org.apache.camel.model.rest.RestParamType.path;
 
+/**
+ * This component is used to test Rest DSL. This service uses in-memory structure to manage the data.
+ */
 @Component
 @ConditionalOnProperty(name = "jss.camel.rest-dsl.enabled", havingValue = "true")
 public class RestDsl extends RouteBuilder {

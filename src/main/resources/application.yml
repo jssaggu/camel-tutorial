@@ -42,7 +42,7 @@ jss:
             enabled: false
         rest-java-dsl:
             enabled: false
-        #Weather
+        #Weather (Non Rabbit); enable rabbitmq for Rest with Rabbit
         rest-dsl:
             enabled: false
         rest-metrics:
