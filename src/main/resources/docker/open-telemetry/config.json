@@ -1,0 +1,4 @@
+{
+  "url": "http://prometheus:9090",
+  "refreshInterval": 5000
+}

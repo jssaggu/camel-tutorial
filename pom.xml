@@ -309,6 +309,12 @@
         <!-- TestContainers End-->
 
         <!-- Tests end -->
+
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-opentelemetry-starter</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
     </dependencies>
 
 </project>
