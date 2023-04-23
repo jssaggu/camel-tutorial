@@ -124,8 +124,8 @@
 
         <!-- -Circuit Breaker -->
         <dependency>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-resilience4j</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-resilience4j</artifactId>
         </dependency>
 
         <dependency>
@@ -200,6 +200,17 @@
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-micrometer-starter</artifactId>
             <version>${camel.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-management</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-jsonpath-starter</artifactId>
         </dependency>
 
         <dependency>

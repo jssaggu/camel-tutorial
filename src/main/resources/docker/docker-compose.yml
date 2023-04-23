@@ -69,6 +69,8 @@ services:
       - 3000:3000
     networks:
       - metrics
+    volumes:
+      - ./grafana/:/etc/grafana/provisioning/
 
   rabbitmq:
     image: rabbitmq:3-management

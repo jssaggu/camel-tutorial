@@ -13,11 +13,13 @@ camel:
             context-path: /services/*
     springboot:
         routes-include-pattern: classpath:camel-routes/*
+        tracing: false
     thread-pool:
-        pool-size: 5
+        pool-size: 28
+        max-pool-size: 48
         config:
-            max-pool-size: 5
-            pool-size: 5
+            max-pool-size: 38
+            pool-size: 58
     component:
         rabbitmq:
             prefetchEnabled: true
@@ -71,11 +73,11 @@ logging:
         org.apache.commons.httpclient: INFO
         org.apache.coyote: INFO
 
----
-spring:
-    config:
-        activate:
-            on-profile: management
+#---
+#spring:
+#    config:
+#        activate:
+#            on-profile: management
 
 management:
     health:
@@ -102,3 +104,7 @@ management:
             group:
                 readiness:
                     include: "*"
+
+spring:
+    jmx:
+        enabled: true
