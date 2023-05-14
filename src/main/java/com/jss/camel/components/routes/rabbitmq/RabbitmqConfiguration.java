@@ -58,7 +58,7 @@ public class RabbitmqConfiguration {
     }
 
     @Bean
-    public Binding myBinding() {
+    public Binding weatherDataBinding() {
         return BindingBuilder
                 .bind(weatherData())
                 .to(weatherDirectExchange())
