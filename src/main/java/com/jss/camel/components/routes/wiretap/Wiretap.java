@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 
 import java.util.Date;
 
-import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.RABBIT_URI;
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.RABBIT_URI;
 import static org.apache.camel.LoggingLevel.ERROR;
 
 @ConditionalOnProperty(name = "jss.camel.wiretap.enabled", havingValue = "true")

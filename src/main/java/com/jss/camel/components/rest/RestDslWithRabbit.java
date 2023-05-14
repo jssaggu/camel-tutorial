@@ -8,7 +8,10 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import static com.jss.camel.components.routes.rabbitmq.WeatherRoute.RABBIT_URI;
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.QUEUE_WEATHER_DATA;
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.RABBIT_URI;
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.ROUTINGKEY_WEATHER_DATA;
+import static org.apache.camel.LoggingLevel.INFO;
 
 /**
  * This component is used to test Rest DSL and RabbitMQ together.
@@ -42,14 +45,21 @@ public class RestDslWithRabbit extends RouteBuilder {
         ;
 
         from("direct:save-weather-data")
+                .log(INFO, "Weather Data Saving: ${body}.")
                 .process(this::saveWeatherData)
                 .wireTap("direct:write-to-rabbit")
+                .log(INFO, "Weather Data Saved.")
                 .end()
         ;
 
         from("direct:write-to-rabbit")
+                .log(INFO, "Writing to Rabbitmq.")
                 .marshal().json(JsonLibrary.Jackson, WeatherDto.class)
-                .toF(RABBIT_URI, "weather-data", "weather-data");
+                .toF(RABBIT_URI, QUEUE_WEATHER_DATA, ROUTINGKEY_WEATHER_DATA)
+                .log(INFO, "Writing to File.")
+                .to("direct:appendToFile")
+                .log(INFO, "Writing Done.")
+        ;
     }
 
     private void saveWeatherData(Exchange exchange) {

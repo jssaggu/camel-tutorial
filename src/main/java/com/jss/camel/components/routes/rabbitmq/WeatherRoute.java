@@ -1,10 +1,6 @@
 package com.jss.camel.components.routes.rabbitmq;
 
-import static org.apache.camel.LoggingLevel.ERROR;
-import static org.apache.camel.LoggingLevel.INFO;
-
 import com.jss.camel.dto.WeatherDto;
-import java.util.Date;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
@@ -16,15 +12,18 @@ import org.slf4j.MDC;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
+
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.QUEUE_WEATHER;
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.QUEUE_WEATHER_EVENTS;
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.RABBIT_URI;
+import static org.apache.camel.LoggingLevel.ERROR;
+import static org.apache.camel.LoggingLevel.INFO;
+
 /** This route can be use to interact with RabbitMQ. */
 @Component
 @ConditionalOnProperty(name = "jss.camel.rabbitmq.enabled", havingValue = "true")
 public class WeatherRoute extends RouteBuilder {
-    public static final String EXCHANGE_WEATHER = "weather.direct";
-    public static final String RABBIT_URI =
-            "rabbitmq:" + EXCHANGE_WEATHER + "?queue=%s&routingKey=%s&autoDelete=false";
-    public static final String QUEUE_WEATHER = "weather";
-    public static final String QUEUE_WEATHER_EVENTS = "weather-events";
 
     @Override
     public void configure() throws Exception {
@@ -52,7 +51,7 @@ public class WeatherRoute extends RouteBuilder {
         ;
 
         /**
-         * The following queue can be used to update the Weathe route. Simply send one the following
+         * The following queue can be used to update the Weather route. Simply send one the following
          * to weather-command route: START / STOP / RESUME / SUSPEND
          */
         fromF(RABBIT_URI, "weather-command", "weather-command")
