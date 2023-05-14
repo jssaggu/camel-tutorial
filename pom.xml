@@ -24,7 +24,7 @@
         <activemq.version>5.16.6</activemq.version>
         <lombok.version>1.18.26</lombok.version>
         <cal10n-api>0.8.1</cal10n-api>
-        <junit-vintage-engine>5.9.2</junit-vintage-engine>
+        <junit-vintage-engine>5.9.3</junit-vintage-engine>
         <spotless.version>2.36.0</spotless.version>
         <google-java-format.version>1.15.0</google-java-format.version>
     </properties>
@@ -124,8 +124,8 @@
 
         <!-- -Circuit Breaker -->
         <dependency>
-        <groupId>org.apache.camel</groupId>
-        <artifactId>camel-resilience4j</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-resilience4j</artifactId>
         </dependency>
 
         <dependency>
@@ -200,6 +200,17 @@
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-micrometer-starter</artifactId>
             <version>${camel.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-management</artifactId>
+            <version>${camel.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-jsonpath-starter</artifactId>
         </dependency>
 
         <dependency>

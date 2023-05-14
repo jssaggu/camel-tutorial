@@ -23,4 +23,4 @@ scrape_configs:
     metrics_path: '/actuator/prometheus'
     scrape_interval: 5s
     static_configs:
-      - targets: ['saggu-camel:8080']
+      - targets: ['host.docker.internal:8080']
