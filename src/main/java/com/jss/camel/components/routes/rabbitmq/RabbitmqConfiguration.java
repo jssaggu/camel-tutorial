@@ -12,21 +12,17 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
-import static java.lang.Integer.parseInt;
-
 @Configuration
 @ConditionalOnExpression("${jss.camel.rabbitmq.enabled:true} " +
         "|| ${jss.camel.rabbitmq-throttler.enabled:true} ")
 public class RabbitmqConfiguration {
-    public static String EXCHANGE_WEATHER_DATA = "weather.data";
-    public static String QUEUE_WEATHER_DATA = "weather-data";
-    public static String ROUTINGKEY_WEATHER_DATA = "weather-data";
-
-    public static final String RABBIT_URI =
-            "spring-rabbitmq:" + EXCHANGE_WEATHER_DATA + "?queues=%s&routingKey=%s&arg.queue.autoDelete=false&autoDeclare=true";
     public static final String QUEUE_WEATHER = "weather";
     public static final String QUEUE_WEATHER_EVENTS = "weather-events";
-
+    public static String EXCHANGE_WEATHER_DATA = "weather.data";
+    public static final String RABBIT_URI =
+            "spring-rabbitmq:" + EXCHANGE_WEATHER_DATA + "?queues=%s&routingKey=%s&arg.queue.autoDelete=false&autoDeclare=true";
+    public static String QUEUE_WEATHER_DATA = "weather-data";
+    public static String ROUTINGKEY_WEATHER_DATA = "weather-data";
     public static String RMQ_HOST = "rmq.host";
     public static String RMQ_PORT = "rmq.port";
 
@@ -38,12 +34,11 @@ public class RabbitmqConfiguration {
     public CachingConnectionFactory factory() {
         Properties properties = System.getProperties();
         String host = properties.getProperty(RMQ_HOST, "localhost");
-        String port = properties.getProperty(RMQ_PORT, "5672");
+        String port = properties.getProperty(RMQ_PORT, "5671");
         CachingConnectionFactory factory = new CachingConnectionFactory();
-        factory.setHost(host);
-        factory.setPort(parseInt(port));
+        factory.setAddresses("localhost:5671,localhost:5672");
         factory.setUsername("guest");
-        factory.setPassword("guest");
+        factory.setPassword("secret");
         return factory;
     }
 
