@@ -1,6 +1,13 @@
 package com.jss.camel.components.routes.rabbitmq;
 
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.QUEUE_WEATHER_DATA;
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.QUEUE_WEATHER_EVENTS;
+import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.RABBIT_URI;
+import static org.apache.camel.LoggingLevel.ERROR;
+import static org.apache.camel.LoggingLevel.INFO;
+
 import com.jss.camel.dto.WeatherDto;
+import java.util.Date;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.builder.RouteBuilder;
@@ -12,14 +19,6 @@ import org.slf4j.MDC;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-
-import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.QUEUE_WEATHER;
-import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.QUEUE_WEATHER_EVENTS;
-import static com.jss.camel.components.routes.rabbitmq.RabbitmqConfiguration.RABBIT_URI;
-import static org.apache.camel.LoggingLevel.ERROR;
-import static org.apache.camel.LoggingLevel.INFO;
-
 /** This route can be use to interact with RabbitMQ. */
 @Component
 @ConditionalOnProperty(name = "jss.camel.rabbitmq.enabled", havingValue = "true")
@@ -27,6 +26,8 @@ public class WeatherRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
+        log.info("JSS declaring route");
 
         // Called by Rabbit on message in weather queue
         /*
@@ -36,7 +37,7 @@ public class WeatherRoute extends RouteBuilder {
          "unit": "C"
         }
             */
-        fromF(RABBIT_URI, QUEUE_WEATHER, QUEUE_WEATHER)
+        fromF(RABBIT_URI, QUEUE_WEATHER_DATA, QUEUE_WEATHER_DATA)
                 .routeId("weather")
                 .log(INFO, "Headers: ${headers}")
                 .log(ERROR, "Before Enrichment: ${body}")
@@ -51,8 +52,8 @@ public class WeatherRoute extends RouteBuilder {
         ;
 
         /**
-         * The following queue can be used to update the Weather route. Simply send one the following
-         * to weather-command route: START / STOP / RESUME / SUSPEND
+         * The following queue can be used to update the Weather route. Simply send one the
+         * following to weather-command route: START / STOP / RESUME / SUSPEND
          */
         fromF(RABBIT_URI, "weather-command", "weather-command")
                 .process(
@@ -62,14 +63,11 @@ public class WeatherRoute extends RouteBuilder {
                             System.out.println("Request for Weather Route: " + command);
                             DefaultCamelContext context = (DefaultCamelContext) getContext();
 
-                            if (command.equals("SUSPEND")) {
-                                context.suspendRoute("weather");
-                            } else if (command.equals("RESUME")) {
-                                context.resumeRoute("weather");
-                            } else if (command.equals("STOP")) {
-                                context.stopRoute("weather");
-                            } else if (command.equals("START")) {
-                                context.startRoute("weather");
+                            switch (command) {
+                                case "SUSPEND" -> context.suspendRoute("weather");
+                                case "RESUME" -> context.resumeRoute("weather");
+                                case "STOP" -> context.stopRoute("weather");
+                                case "START" -> context.startRoute("weather");
                             }
 
                             DefaultRoute weather = (DefaultRoute) context.getRoute("weather");
