@@ -1,11 +1,15 @@
 package com.jss.camel.components.routes.rabbitmq;
 
-import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+
+import java.util.Properties;
 
 @Configuration
 @ConditionalOnExpression(
@@ -21,26 +25,33 @@ public class RabbitmqConfiguration {
                     + "queues=%s&"
                     + "routingKey=%s&"
                     + "arg.queue.autoDelete=false&"
-                    + "autoDeclare=true";
+                    + "autoDeclare=true&" +
+                    "concurrentConsumers=20&" +
+                    "connectionFactory=#rabbitConnectionFactory";
     public static String QUEUE_WEATHER_DATA = "weather-data";
     public static String ROUTINGKEY_WEATHER_DATA = "weather-data";
     public static String RMQ_HOST = "rmq.host";
     public static String RMQ_PORT = "rmq.port";
 
+    /**
+     * camel-spring-rabbitmq lib will either create all channels under one connection or one channel per connection
+     * using Scope=PROTOTYPE will create new connection per route
+     *
+     * @return
+     */
     @Bean
-    public CachingConnectionFactory rabbitConnectionFactory2() {
-        return factory();
-    }
-
-    public CachingConnectionFactory factory() {
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public ConnectionFactory rabbitConnectionFactory() {
+        log.error("Setting Factory");
         Properties properties = System.getProperties();
         String host = properties.getProperty(RMQ_HOST, "localhost");
         String port = properties.getProperty(RMQ_PORT, "5672");
         CachingConnectionFactory factory = new CachingConnectionFactory();
-        //        factory.setAddresses("localhost:5671,localhost:5672");
         factory.setAddresses(host + ":" + port);
         factory.setUsername("guest");
         factory.setPassword("guest");
+        factory.setChannelCacheSize(10);
+        factory.setConnectionLimit(8);
         return factory;
     }
 }

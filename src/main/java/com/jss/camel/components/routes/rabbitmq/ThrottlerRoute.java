@@ -15,7 +15,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ConditionalOnProperty(name = "jss.camel.rabbitmq-throttler.enabled", havingValue = "true")
 public class ThrottlerRoute extends RouteBuilder {
     public static final String EXCHANGE_IOT = "weather.direct";
-    public static final String RABBIT_URI = "spring-rabbitmq:" + EXCHANGE_IOT + "?queue=%s&routingKey=%s&autoDelete=false&autoAck=false";
+    public static final String RABBIT_URI = "spring-rabbitmq:" + EXCHANGE_IOT + "?" +
+            "queue=%s&" +
+            "routingKey=%s&" +
+            "autoDelete=false&" +
+            "autoAck=false&" +
+            "concurrentConsumers=50";
     public static final String QUEUE_IOT = "weather";
 
     final AtomicInteger sent = new AtomicInteger();
