@@ -67,6 +67,7 @@
                         </format>
                     </formats>
                     <java>
+                        <toggleOffOn />
                         <googleJavaFormat>
                             <version>${google-java-format.version}</version>
                             <style>AOSP</style>

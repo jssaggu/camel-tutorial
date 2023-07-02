@@ -11,16 +11,17 @@ import org.springframework.stereotype.Component;
 public class CircuitBreaker extends RouteBuilder {
     @Override
     public void configure() throws Exception {
+        // spotless:off
         from("timer:time?period=1000")
                 .circuitBreaker()
                 .resilience4jConfiguration()
-                .timeoutEnabled(true)
-                .timeoutDuration(500)
-                .minimumNumberOfCalls(2)
-                .waitDurationInOpenState(5)
-                .failureRateThreshold(99)
-                .automaticTransitionFromOpenToHalfOpenEnabled(true)
-                .permittedNumberOfCallsInHalfOpenState(1)
+                    .timeoutEnabled(true)
+                    .timeoutDuration(500)
+                    .minimumNumberOfCalls(2)
+                    .waitDurationInOpenState(5)
+                    .failureRateThreshold(99)
+                    .automaticTransitionFromOpenToHalfOpenEnabled(true)
+                    .permittedNumberOfCallsInHalfOpenState(1)
                 .end()
                 .log(INFO, "------------Start----------------------------")
                 .to("http://localhost:8080/hello?sleepTimeMills=1000")
@@ -30,5 +31,6 @@ public class CircuitBreaker extends RouteBuilder {
                 .end()
                 .log(INFO, "Body - ${body}")
                 .log(INFO, "------------End----------------------------");
+        // spotless:on
     }
 }

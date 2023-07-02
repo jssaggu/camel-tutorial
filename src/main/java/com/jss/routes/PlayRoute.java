@@ -19,22 +19,24 @@ public class PlayRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+        // spotless:off
         from("direct:start")
                 .to("mock:step-1")
-                .claimCheck(Set, "claim-tag-original")
-                .setBody(jsonpath("$.name"))
+                    .claimCheck(Set, "claim-tag-original")
+                    .setBody(jsonpath("$.name"))
                 .to("mock:step-2")
-                .claimCheck(Set, "claim-tag-step-2")
+                    .claimCheck(Set, "claim-tag-step-2")
                 .to("mock:step-3")
-                .claimCheck(GetAndRemove, "claim-tag-step-2")
+                    .claimCheck(GetAndRemove, "claim-tag-step-2")
                 .to("mock:step-4")
-                .transform()
-                .constant("This message should be there in body even after claim 2.")
-                .claimCheck(ClaimCheckOperation.Get, "claim-tag-step-2")
+                    .transform()
+                    .constant("This message should be there in body even after claim 2.")
+                    .claimCheck(ClaimCheckOperation.Get, "claim-tag-step-2")
                 .to("mock:step-5")
-                .claimCheck(ClaimCheckOperation.Get, "claim-tag-original")
+                    .claimCheck(ClaimCheckOperation.Get, "claim-tag-original")
                 .to("mock:step-6");
-        ;
+        // spotless:on
+
     }
 
     public void configure2() throws Exception {
