@@ -19,4 +19,4 @@ public class Person {
 }
 ----
 
-include::intro.adoc[]
+include::intro.adoc[leveloffset=offset,lines=ranges,tag(s)=name(s),indent=depth,opts=optional]
