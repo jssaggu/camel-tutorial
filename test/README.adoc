@@ -1,0 +1,22 @@
+.Grocery list
+* Milk
+* Eggs
+* Bread
+
+= Writing posts
+:page-layout: base
+:showtitle:
+:prev_section: defining-frontmatter
+:next_section: creating-pages
+
+[source,java]
+----
+public class Person {
+  private String name;
+  public Person(String name) {
+    this.name = name;
+  }
+}
+----
+
+include::intro.adoc[]
