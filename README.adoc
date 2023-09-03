@@ -3,6 +3,7 @@
 * Eggs
 * Bread
 
+[source]
 include::intro.adoc[]
 
 includes::intro.adoc[]
