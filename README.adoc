@@ -3,6 +3,14 @@
 * Eggs
 * Bread
 
+include::intro.adoc[]
+
+includes::intro.adoc[]
+
+includes::README.md[]
+
+include::README.md[]
+
 = Writing posts
 :page-layout: base
 :showtitle:
