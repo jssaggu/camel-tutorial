@@ -25,7 +25,7 @@
         <lombok.version>1.18.28</lombok.version>
         <cal10n-api>0.8.1</cal10n-api>
         <junit-vintage-engine>5.9.3</junit-vintage-engine>
-        <spotless.version>2.37.0</spotless.version>
+        <spotless.version>2.40.0</spotless.version>
         <google-java-format.version>1.15.0</google-java-format.version>
     </properties>
 
