@@ -12,8 +12,8 @@ camel:
         mapping:
             context-path: /services/*
     springboot:
-        routes-include-pattern: classpath:camel-routes/*
         tracing: false
+#        routes-reload-pattern: classpath:camel-routes/*
     thread-pool:
         pool-size: 28
         max-pool-size: 48

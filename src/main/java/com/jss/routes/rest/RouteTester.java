@@ -6,8 +6,6 @@ import org.apache.camel.component.http.HttpClientConfigurer;
 import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.config.SocketConfig;
-import org.apache.http.impl.client.DefaultHttpRequestRetryHandler;
-import org.apache.http.impl.client.HttpClientBuilder;
 import org.springframework.context.annotation.Bean;
 
 // @Component
@@ -45,7 +43,9 @@ public class RouteTester extends RouteBuilder {
                         .setConnectionRequestTimeout(httpConnectionTimeoutMillis)
                         .setSocketTimeout(httpSocketTimeoutMillis)
                         .build();
-
+        // TODO
+        return null;
+        /*
         return (HttpClientBuilder clientBuilder) -> {
             clientBuilder.disableAutomaticRetries();
             clientBuilder.setRetryHandler(new DefaultHttpRequestRetryHandler(0, false));
@@ -55,6 +55,6 @@ public class RouteTester extends RouteBuilder {
             clientBuilder.useSystemProperties();
 
             clientBuilder.build();
-        };
+        };*/
     }
 }
