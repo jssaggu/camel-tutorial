@@ -17,23 +17,27 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 @MockEndpoints()
 public class SafTest extends CamelTestSupport {
 
-    private static final String SEDA_ROUTE = "seda:saf?multipleConsumers=true";
-    private static final long TIMER_DELAY = 5000;
+    private static final String SEDA_ROUTE = "seda:saf";
+//    private static final String SEDA_ROUTE = "seda:saf?multipleConsumers=false&concurrentConsumers=10";
+    private static final long TIMER_DELAY = 2000;
+    private static final String CONSUMER_TYPE = "seda";
+//    private static final String CONSUMER_SUFFIX = "?multipleConsumers=false&concurrentConsumers=10";
+    private static final String CONSUMER_SUFFIX = "";
 
     @Override
     protected RouteBuilder createRouteBuilder() throws Exception {
         return new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from(SEDA_ROUTE).toD("direct:${header.dest}");
+                from(SEDA_ROUTE).toD(CONSUMER_TYPE + ":${header.dest}" + CONSUMER_SUFFIX);
 
-                from("direct:saf-1").throttle(1).timePeriodMillis(TIMER_DELAY)
+                from(CONSUMER_TYPE + ":saf-1" + CONSUMER_SUFFIX).throttle(1).timePeriodMillis(TIMER_DELAY)
                         .process(s -> printBody(s.getMessage().getBody()));
 
-                from("direct:saf-2").throttle(2).timePeriodMillis(TIMER_DELAY)
+                from(CONSUMER_TYPE + ":saf-2" + CONSUMER_SUFFIX).throttle(2).timePeriodMillis(TIMER_DELAY)
                         .process(s -> printBody(s.getMessage().getBody()));
 
-                from("direct:saf-3").throttle(3).timePeriodMillis(TIMER_DELAY)
+                from(CONSUMER_TYPE + ":saf-3" + CONSUMER_SUFFIX).throttle(3).timePeriodMillis(TIMER_DELAY)
                         .process(s -> printBody(s.getMessage().getBody()));
             }
         };
@@ -45,8 +49,6 @@ public class SafTest extends CamelTestSupport {
 
     @Test
     public void testMocksAreValid() throws InterruptedException {
-//        MockEndpoint mock = getMockEndpoint("mock:greetingResult");
-//        mock.expectedMessageCount(2);
 
         Map<String, List<String>> safMessage = new HashMap<>();
         safMessage.put("saf-3", List.of("saf-3.1", "saf-3.2", "saf-3.3", "saf-3.4", "saf-3.5", "saf-3.6"));
@@ -57,12 +59,12 @@ public class SafTest extends CamelTestSupport {
             for (String key : safMessage.keySet()) {
                 for (String value : safMessage.get(key)) {
                     String body = "[" + i + "] " + value;
-                    template.sendBodyAndHeader(SEDA_ROUTE, body, "dest", key);
+//                    template.sendBodyAndHeader(SEDA_ROUTE, body, "dest", key);
+                    template.sendBodyAndHeader(CONSUMER_TYPE + ":" + key + CONSUMER_SUFFIX, body, "dest", key);
                 }
             }
         }
 
         Thread.sleep(10000);
-//        mock.assertIsSatisfied();
     }
 }
