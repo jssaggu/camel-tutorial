@@ -1,7 +1,10 @@
 package com.jss.routes;
 
+import org.apache.camel.AggregationStrategy;
+import org.apache.camel.builder.AggregationStrategies;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
+import org.apache.camel.processor.aggregate.UseOriginalAggregationStrategy;
 import org.apache.camel.test.junit5.CamelTestSupport;
 import org.apache.camel.test.spring.junit5.MockEndpoints;
 import org.junit.jupiter.api.Test;
@@ -32,6 +35,7 @@ public class SafTest extends CamelTestSupport {
                 from(SEDA_ROUTE).toD(CONSUMER_TYPE + ":${header.dest}" + CONSUMER_SUFFIX);
 
                 from(CONSUMER_TYPE + ":saf-1" + CONSUMER_SUFFIX).throttle(1).timePeriodMillis(TIMER_DELAY)
+//                        .aggregate(constant(true), new UseOriginalAggregationStrategy()).completionSize(10)
                         .process(s -> printBody(s.getMessage().getBody()));
 
                 from(CONSUMER_TYPE + ":saf-2" + CONSUMER_SUFFIX).throttle(2).timePeriodMillis(TIMER_DELAY)
@@ -55,7 +59,7 @@ public class SafTest extends CamelTestSupport {
         safMessage.put("saf-2", List.of("saf-2.1", "saf-2.2", "saf-2.3", "saf-2.4"));
         safMessage.put("saf-1", List.of("saf-1.1", "saf-1.2"));
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 20; i++) {
             for (String key : safMessage.keySet()) {
                 for (String value : safMessage.get(key)) {
                     String body = "[" + i + "] " + value;
@@ -65,6 +69,6 @@ public class SafTest extends CamelTestSupport {
             }
         }
 
-        Thread.sleep(10000);
+        Thread.sleep(100000);
     }
 }
