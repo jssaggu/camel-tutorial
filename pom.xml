@@ -19,12 +19,12 @@
     <properties>
         <java.version>17</java.version>
         <camel.version>4.4.1</camel.version>
-        <junit.platform.version>1.10.0</junit.platform.version>
-        <testcontainers.version>1.19.5</testcontainers.version>
+        <junit.platform.version>1.10.2</junit.platform.version>
+        <testcontainers.version>1.19.7</testcontainers.version>
         <activemq.version>5.16.7</activemq.version>
         <lombok.version>1.18.30</lombok.version>
         <cal10n-api>0.8.1</cal10n-api>
-        <junit-vintage-engine>5.10.0</junit-vintage-engine>
+        <junit-vintage-engine>5.10.2</junit-vintage-engine>
         <spotless.version>2.43.0</spotless.version>
         <google-java-format.version>1.15.0</google-java-format.version>
     </properties>
@@ -181,6 +181,15 @@
             <artifactId>camel-spring-rabbitmq</artifactId>
             <version>${camel.version}</version>
         </dependency>
+
+        <!-- NATS -->
+        <dependency>
+            <groupId>org.apache.camel.springboot</groupId>
+            <artifactId>camel-nats-starter</artifactId>
+            <version>${camel.version}</version>
+            <!-- use the same version as your Camel core version -->
+        </dependency>
+        <!-- NATS -->
 
         <dependency>
             <groupId>org.apache.camel</groupId>
