@@ -20,7 +20,7 @@
         <java.version>17</java.version>
         <camel.version>4.4.1</camel.version>
         <junit.platform.version>1.10.2</junit.platform.version>
-        <testcontainers.version>1.19.7</testcontainers.version>
+        <testcontainers.version>1.19.8</testcontainers.version>
         <activemq.version>5.16.7</activemq.version>
         <lombok.version>1.18.32</lombok.version>
         <cal10n-api>0.8.1</cal10n-api>
