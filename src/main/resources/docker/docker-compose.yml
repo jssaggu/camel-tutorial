@@ -163,3 +163,23 @@ services:
     depends_on:
       - otel-collector
       - jaeger
+
+# docker compose up -d nats
+# Connect from CLI
+#  nats pub jss.hello -s localhost:4222 "Hellooooo" --count=10 --sleep=500ms
+#  nats sub jss.hello -s localhost:4222
+#  nats sub ">" -s localhost:4222
+  nats:
+    image: nats:latest
+    container_name: nats
+    ports:
+      - "4222:4222"
+      - "8222:8222"
+      - "6222:6222"
+
+  nats-webui:
+    image: sphqxe/nats-webui:latest
+    ports:
+      - "9090:80"
+    depends_on:
+      - nats

@@ -61,6 +61,8 @@ jss:
             enabled: false
         circuit-breaker:
             enabled: false
+        nats:
+            enabled: false
 
 metrics: 0 */1 * * * *
 
