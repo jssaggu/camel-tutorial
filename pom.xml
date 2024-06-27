@@ -24,7 +24,7 @@
         <activemq.version>5.16.7</activemq.version>
         <lombok.version>1.18.32</lombok.version>
         <cal10n-api>0.8.1</cal10n-api>
-        <junit-vintage-engine>5.10.2</junit-vintage-engine>
+        <junit-vintage-engine>5.10.3</junit-vintage-engine>
         <spotless.version>2.43.0</spotless.version>
         <google-java-format.version>1.15.0</google-java-format.version>
     </properties>
