@@ -2,11 +2,13 @@ package com.jss.routes.nats;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import static org.apache.camel.LoggingLevel.INFO;
 
 @Component
+@ConditionalOnProperty(name = "jss.camel.nats.enabled", havingValue = "true")
 public class OrderManagementSystemRoute extends RouteBuilder {
     private static final String NATS_SERVER = "?servers=localhost:4222";
 
