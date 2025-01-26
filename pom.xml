@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.2</version>
+        <version>3.4.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.jss</groupId>
@@ -18,10 +18,10 @@
 
     <properties>
         <java.version>17</java.version>
-        <camel.version>4.4.1</camel.version>
+        <camel.version>4.6.0</camel.version>
         <junit.platform.version>1.11.0</junit.platform.version>
         <testcontainers.version>1.19.8</testcontainers.version>
-        <activemq.version>5.16.7</activemq.version>
+        <activemq.version>6.1.5</activemq.version>
         <lombok.version>1.18.34</lombok.version>
         <cal10n-api>0.8.1</cal10n-api>
         <junit-vintage-engine>5.11.0</junit-vintage-engine>
@@ -92,6 +92,13 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${parent.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.camel.springboot</groupId>
                 <artifactId>camel-spring-boot-bom</artifactId>
                 <version>${camel.version}</version>
@@ -102,6 +109,7 @@
     </dependencyManagement>
 
     <dependencies>
+
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-spring-boot-starter</artifactId>
@@ -154,11 +162,11 @@
 
         <!-- ActiveMQ -->
         <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-camel</artifactId>
-            <version>${activemq.version}</version>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-activemq</artifactId>
+            <version>${camel.version}</version>
         </dependency>
-        <dependency>
+       <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-broker</artifactId>
             <version>${activemq.version}</version>
@@ -336,7 +344,6 @@
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-opentelemetry-starter</artifactId>
-            <version>${camel.version}</version>
         </dependency>
     </dependencies>
 

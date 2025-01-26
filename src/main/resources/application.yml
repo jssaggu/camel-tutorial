@@ -27,7 +27,6 @@ camel:
             prefetchSize: 0
             prefetchCount: 1
 
-
 jss:
     camel:
         hello:
@@ -53,6 +52,8 @@ jss:
             enabled: false
         error-handlers:
             enabled: false
+
+        #Also check property spring.autoconfigure.exclude
         jms:
             enabled: false
         testcontainers:
@@ -110,3 +111,5 @@ management:
 spring:
     jmx:
         enabled: true
+    autoconfigure:
+        exclude: org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration

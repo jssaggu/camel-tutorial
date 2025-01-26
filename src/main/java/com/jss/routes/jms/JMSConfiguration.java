@@ -1,6 +1,6 @@
 package com.jss.routes.jms;
 
-import javax.jms.ConnectionFactory;
+import jakarta.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
