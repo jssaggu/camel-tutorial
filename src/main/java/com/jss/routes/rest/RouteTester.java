@@ -4,8 +4,9 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.http.HttpClientConfigurer;
 import org.apache.camel.model.rest.RestBindingMode;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.config.SocketConfig;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.core5.http.io.SocketConfig;
+import org.apache.hc.core5.util.Timeout;
 import org.springframework.context.annotation.Bean;
 
 // @Component
@@ -36,12 +37,15 @@ public class RouteTester extends RouteBuilder {
     public HttpClientConfigurer myRestHttpClientConfigurer() {
 
         SocketConfig socketConfig =
-                SocketConfig.custom().setSoTimeout(httpSocketTimeoutMillis).build();
+                SocketConfig.custom()
+                        .setSoTimeout(Timeout.ofMilliseconds(httpSocketTimeoutMillis))
+                        .build();
 
         RequestConfig requestConfig =
                 RequestConfig.custom()
-                        .setConnectionRequestTimeout(httpConnectionTimeoutMillis)
-                        .setSocketTimeout(httpSocketTimeoutMillis)
+                        .setConnectionRequestTimeout(
+                                Timeout.ofMilliseconds(httpConnectionTimeoutMillis))
+                        .setResponseTimeout(Timeout.ofMilliseconds(httpSocketTimeoutMillis))
                         .build();
         // TODO
         return null;
