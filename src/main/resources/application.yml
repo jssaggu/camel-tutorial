@@ -39,6 +39,8 @@ jss:
             enabled: false
         rabbitmq-throttler:
             enabled: false
+        rabbitmq-stress-tester:
+            enabled: true
         wiretap:
             enabled: false
         rest-java-dsl:

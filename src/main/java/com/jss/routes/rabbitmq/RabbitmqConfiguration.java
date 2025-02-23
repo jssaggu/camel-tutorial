@@ -1,9 +1,14 @@
 package com.jss.routes.rabbitmq;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
+
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.connection.AbstractConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.connection.PooledChannelConnectionFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
@@ -12,10 +17,14 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 @ConditionalOnExpression(
-        "${jss.camel.rabbitmq.enabled:true} " + "|| ${jss.camel.rabbitmq-throttler.enabled:true} ")
+        "${jss.camel.rabbitmq.enabled:true} " + "|| ${jss.camel.rabbitmq-throttler.enabled:true} "
+                + "|| ${jss.camel.rabbitmq-stress-tester.enabled:true} ")
 @Slf4j
 public class RabbitmqConfiguration {
+
     public static final String QUEUE_WEATHER_EVENTS = "weather-events";
+    public static final String WEATHER_COMMAND = "weather-command";
+
     public static String EXCHANGE_WEATHER_DATA = "weather.data";
     public static final String RABBIT_URI =
             "spring-rabbitmq:"
@@ -25,12 +34,20 @@ public class RabbitmqConfiguration {
                     + "routingKey=%s&"
                     + "arg.queue.autoDelete=false&"
                     + "autoDeclare=true&"
-                    + "concurrentConsumers=20&"
-                    + "connectionFactory=#rabbitConnectionFactory";
+                    + "concurrentConsumers=200&"
+                    + "connectionFactory=#rabbitConnectionFactory" +
+                    "&args=#rabbitArgs";
     public static String QUEUE_WEATHER_DATA = "weather-data";
     public static String ROUTINGKEY_WEATHER_DATA = "weather-data";
     public static String RMQ_HOST = "rmq.host";
     public static String RMQ_PORT = "rmq.port";
+
+    @Bean(name = "rabbitArgs")
+    public Map<String, Object> rabbitArgs() {
+        Map<String, Object> args = new HashMap<>();
+        //args.put("x-message-ttl", 5000); // TTL of 5 seconds
+        return args;
+    }
 
     /**
      * camel-spring-rabbitmq lib will either create all channels under one connection or one channel
@@ -45,12 +62,19 @@ public class RabbitmqConfiguration {
         Properties properties = System.getProperties();
         String host = properties.getProperty(RMQ_HOST, "localhost");
         String port = properties.getProperty(RMQ_PORT, "5672");
+
+        return cachingFactory(host, port);
+    }
+
+    private ConnectionFactory cachingFactory(String host, String port) {
         CachingConnectionFactory factory = new CachingConnectionFactory();
         factory.setAddresses(host + ":" + port);
         factory.setUsername("guest");
         factory.setPassword("guest");
-        factory.setChannelCacheSize(10);
-        factory.setConnectionLimit(8);
+        factory.setCacheMode(CachingConnectionFactory.CacheMode.CHANNEL);
+        factory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED); //175
+        //factory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.SIMPLE); //167
+        factory.setChannelCacheSize(1000);
         return factory;
     }
 }

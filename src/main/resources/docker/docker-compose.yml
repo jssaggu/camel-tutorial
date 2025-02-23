@@ -71,7 +71,7 @@ services:
       - ./grafana/:/etc/grafana/provisioning/
 
   rabbitmq:
-    image: rabbitmq:3-management
+    image: rabbitmq:4-management
     container_name: 'rabbitmq-ui'
     ports:
       - 5672:5672
