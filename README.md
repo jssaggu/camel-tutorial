@@ -48,3 +48,38 @@ Or
 
 ## Access Trace UI
 http://localhost:16686/
+
+## TLS Support
+To enable TLS, you need to set the following properties in your `application.yml` file:
+
+```yaml
+spring:
+  rabbitmq:
+    ssl:
+      enabled: true
+      trust-store: classpath:docker/rabbitmq/certs/keystore.p12
+      trust-store-password: changeit
+      trust-store-type: PKCS12
+```
+
+### Use below commands to generate RabbitMQ certificates
+
+```shell
+mkdir -p certs && cd certs
+# CA key and certificate
+openssl genrsa -out ca.key 2048
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 1024 -out ca.crt -subj "/CN=MyCA"
+
+# Server key and certificate signing request
+openssl genrsa -out server.key 2048
+openssl req -new -key server.key -out server.csr -subj "/CN=localhost"
+
+# Sign the server cert with the CA
+openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial \
+-out server.crt -days 365 -sha256
+```
+
+#### Trust Store
+```sh
+keytool -import -alias rabbitmq -file ca.crt -keystore keystore.p12 -storetype PKCS12 -storepass changeit
+```
