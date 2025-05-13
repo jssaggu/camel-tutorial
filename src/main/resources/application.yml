@@ -22,6 +22,7 @@ camel:
             pool-size: 58
     component:
         rabbitmq:
+            ssl: true
             prefetchEnabled: true
             prefetchGlobal: false
             prefetchSize: 0
@@ -36,11 +37,11 @@ jss:
         file:
             enabled: false
         rabbitmq:
-            enabled: false
+            enabled: true
         rabbitmq-throttler:
             enabled: false
         rabbitmq-stress-tester:
-            enabled: true
+            enabled: false
         wiretap:
             enabled: false
         rest-java-dsl:
@@ -115,3 +116,14 @@ spring:
         enabled: true
     autoconfigure:
         exclude: org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration
+
+    rabbitmq:
+        host: localhost
+        port: 5671
+        username: guest
+        password: guest
+        ssl:
+            enabled: false
+            trust-store: classpath:docker/rabbitmq/certs/keystore.p12
+            trust-store-password: changeit
+            trust-store-type: PKCS12

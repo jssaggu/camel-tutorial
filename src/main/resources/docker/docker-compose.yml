@@ -71,18 +71,24 @@ services:
       - ./grafana/:/etc/grafana/provisioning/
 
   rabbitmq:
-    image: rabbitmq:4-management
+    image: rabbitmq:3.13-management
     container_name: 'rabbitmq-ui'
+
     ports:
+      - 5671:5671 # AMQPS port
       - 5672:5672
       - 15672:15672
+    volumes:
+      - ./rabbitmq/certs:/certs:ro
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf:ro
     environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
       - RABBITMQ_ERLANG_COOKIE=secret
-#      - RABBITMQ_PLUGINS_DIR=rabbitmq/plugins:/plugins
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit ssl_cert_login_from common_name
       - RABBITMQ_PLUGINS_DIR=./rabbitmq/plugins:/opt/rabbitmq/plugins
       - RABBITMQ_PLUGINS=rabbitmq_management,rabbitmq_message_timestamp
-#    volumes:
-#      - ./rabbitmq/plugins:/opt/rabbitmq/plugins
+    restart: unless-stopped
 
   rabbitmq-with-timestamp:
     image: rabbitmq-with-timestamp:latest

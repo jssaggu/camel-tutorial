@@ -3,12 +3,9 @@ package com.jss.routes.rabbitmq;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.connection.AbstractConnectionFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.connection.PooledChannelConnectionFactory;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +14,8 @@ import org.springframework.context.annotation.Scope;
 
 @Configuration
 @ConditionalOnExpression(
-        "${jss.camel.rabbitmq.enabled:true} " + "|| ${jss.camel.rabbitmq-throttler.enabled:true} "
+        "${jss.camel.rabbitmq.enabled:true} "
+                + "|| ${jss.camel.rabbitmq-throttler.enabled:true} "
                 + "|| ${jss.camel.rabbitmq-stress-tester.enabled:true} ")
 @Slf4j
 public class RabbitmqConfiguration {
@@ -34,9 +32,9 @@ public class RabbitmqConfiguration {
                     + "routingKey=%s&"
                     + "arg.queue.autoDelete=false&"
                     + "autoDeclare=true&"
-                    + "concurrentConsumers=200&"
-                    + "connectionFactory=#rabbitConnectionFactory" +
-                    "&args=#rabbitArgs";
+                    + "concurrentConsumers=2&"
+                    //+ "connectionFactory=#rabbitConnectionFactory&" +
+                    + "args=#rabbitArgs";
     public static String QUEUE_WEATHER_DATA = "weather-data";
     public static String ROUTINGKEY_WEATHER_DATA = "weather-data";
     public static String RMQ_HOST = "rmq.host";
@@ -45,7 +43,7 @@ public class RabbitmqConfiguration {
     @Bean(name = "rabbitArgs")
     public Map<String, Object> rabbitArgs() {
         Map<String, Object> args = new HashMap<>();
-        //args.put("x-message-ttl", 5000); // TTL of 5 seconds
+        // args.put("x-message-ttl", 5000); // TTL of 5 seconds
         return args;
     }
 
@@ -72,8 +70,8 @@ public class RabbitmqConfiguration {
         factory.setUsername("guest");
         factory.setPassword("guest");
         factory.setCacheMode(CachingConnectionFactory.CacheMode.CHANNEL);
-        factory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED); //175
-        //factory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.SIMPLE); //167
+        factory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.CORRELATED); // 175
+        // factory.setPublisherConfirmType(CachingConnectionFactory.ConfirmType.SIMPLE); //167
         factory.setChannelCacheSize(1000);
         return factory;
     }
