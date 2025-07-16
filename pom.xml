@@ -123,7 +123,7 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-http</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.4</version>
         </dependency>
 
         <dependency>
@@ -136,20 +136,20 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-resilience4j</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.2</version>
         </dependency>
 
         <dependency>
             <groupId>ch.qos.cal10n</groupId>
             <artifactId>cal10n-api</artifactId>
-            <version>${cal10n-api}</version>
+            <version>0.8.1</version>
         </dependency>
 
         <!-- SAGA -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-saga-starter</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.5</version>
         </dependency>
         <!-- SAGA -->
 
@@ -157,19 +157,19 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jms</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.5</version>
         </dependency>
 
         <!-- ActiveMQ -->
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-activemq</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.5</version>
         </dependency>
        <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-broker</artifactId>
-            <version>${activemq.version}</version>
+            <version>6.1.6</version>
         </dependency>
         <!-- ActiveMQ -->
 
@@ -187,14 +187,14 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-spring-rabbitmq</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.2</version>
         </dependency>
 
         <!-- NATS -->
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-nats-starter</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.5</version>
             <!-- use the same version as your Camel core version -->
         </dependency>
         <!-- NATS -->
@@ -202,13 +202,13 @@
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jackson</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-jaxb</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.2</version>
         </dependency>
 
         <dependency>
@@ -219,13 +219,13 @@
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-micrometer-starter</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.5</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-management</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.2</version>
         </dependency>
 
         <dependency>
@@ -242,38 +242,38 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-            <version>${lombok.version}</version>
+            <version>1.18.34</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-servlet</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.2</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-servlet-starter</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.5</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
             <artifactId>camel-rest-starter</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.5</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-kafka</artifactId>
-            <version>${camel.version}</version>
+            <version>4.12.0</version>
         </dependency>
 
         <!-- Open API-->
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-openapi-java</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.2</version>
         </dependency>
         <!-- Open API-->
 
@@ -287,28 +287,28 @@
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-runner</artifactId>
-            <version>${junit.platform.version}</version>
+            <version>1.11.0</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.vintage</groupId>
             <artifactId>junit-vintage-engine</artifactId>
-            <version>${junit-vintage-engine}</version>
+            <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-test-junit5</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.2</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
             <artifactId>camel-test-spring-junit5</artifactId>
-            <version>${camel.version}</version>
+            <version>4.10.5</version>
             <scope>test</scope>
         </dependency>
 
@@ -322,19 +322,19 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>${testcontainers.version}</version>
+            <version>1.19.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>${testcontainers.version}</version>
+            <version>1.19.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>rabbitmq</artifactId>
-            <version>${testcontainers.version}</version>
+            <version>1.19.8</version>
             <scope>test</scope>
         </dependency>
         <!-- TestContainers End-->
