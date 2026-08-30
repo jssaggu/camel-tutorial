@@ -16,7 +16,7 @@ public class CircuitBreaker extends RouteBuilder {
                 .circuitBreaker()
                 .resilience4jConfiguration()
                     .timeoutEnabled(true)
-                    .timeoutDuration(500)
+                    .timeoutDuration("500ms")
                     .minimumNumberOfCalls(2)
                     .waitDurationInOpenState("5s")
                     .failureRateThreshold(99)
