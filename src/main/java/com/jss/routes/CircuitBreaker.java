@@ -18,7 +18,7 @@ public class CircuitBreaker extends RouteBuilder {
                     .timeoutEnabled(true)
                     .timeoutDuration(500)
                     .minimumNumberOfCalls(2)
-                    .waitDurationInOpenState(5)
+                    .waitDurationInOpenState("5s")
                     .failureRateThreshold(99)
                     .automaticTransitionFromOpenToHalfOpenEnabled(true)
                     .permittedNumberOfCallsInHalfOpenState(1)

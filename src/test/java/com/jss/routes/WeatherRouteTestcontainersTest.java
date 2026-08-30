@@ -20,7 +20,7 @@ import java.util.Properties;
 import java.util.function.Function;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.camel.test.spring.junit5.CamelSpringBootTest;
+import org.apache.camel.test.spring.junit6.CamelSpringBootTest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -32,7 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.testcontainers.containers.DockerComposeContainer;
+import org.testcontainers.containers.ComposeContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.containers.wait.strategy.WaitStrategy;
 import org.testcontainers.junit.jupiter.Container;
@@ -42,7 +42,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
         classes = CamelApplication.class,
         properties = {"jss.camel.rabbitmq.enabled=true", "jss.camel.testcontainers.enabled=true"})
 @CamelSpringBootTest
-@Testcontainers
+@Testcontainers(disabledWithoutDocker = true)
 @ContextConfiguration(
         classes = {TestContainerLaunchConfig.class},
         loader = AnnotationConfigContextLoader.class)
@@ -74,8 +74,8 @@ class WeatherRouteTestcontainersTest {
                         .withStartupTimeout(Duration.ofSeconds(20)));
     */
     @Container
-    public static DockerComposeContainer DOCKER_RABBITMQ =
-            new DockerComposeContainer(new File("src/test/resources/docker-compose.yml"))
+    public static ComposeContainer DOCKER_RABBITMQ =
+            new ComposeContainer(new File("src/test/resources/docker-compose.yml"))
                     .withExposedService(SERVICE_NAME_RABBITMQ, RABBITMQ_PORT)
                     .waitingFor(
                             SERVICE_NAME_RABBITMQ,

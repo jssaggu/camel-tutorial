@@ -12,8 +12,8 @@ import org.apache.camel.builder.AdviceWithRouteBuilder;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.mock.MockEndpoint;
 import org.apache.camel.model.RouteDefinition;
-import org.apache.camel.test.junit5.CamelTestSupport;
-import org.apache.camel.test.spring.junit5.MockEndpoints;
+import org.apache.camel.test.junit6.CamelTestSupport;
+import org.apache.camel.test.spring.junit6.MockEndpoints;
 import org.junit.jupiter.api.Test;
 
 @MockEndpoints

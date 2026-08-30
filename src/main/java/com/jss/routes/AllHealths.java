@@ -1,9 +1,9 @@
 package com.jss.routes;
 
 import java.util.List;
-import org.springframework.boot.actuate.health.HealthEndpoint;
-import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.boot.actuate.health.PingHealthIndicator;
+import org.springframework.boot.health.actuate.endpoint.HealthEndpoint;
+import org.springframework.boot.health.contributor.HealthIndicator;
+import org.springframework.boot.health.contributor.PingHealthIndicator;
 
 // @Component
 public class AllHealths {
@@ -24,7 +24,7 @@ public class AllHealths {
         System.out.println("-------");
         for (HealthIndicator c : healthIndicators) {
             System.out.println(
-                    "  " + c.getClass().getSimpleName() + ": " + c.getHealth(false).getStatus());
+                    "  " + c.getClass().getSimpleName() + ": " + c.health(false).getStatus());
         }
         System.out.println("---X---");
     }

@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.3</version>
+        <version>4.1.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.jss</groupId>
@@ -17,16 +17,10 @@
     <!--    <packaging>war</packaging>-->
 
     <properties>
-        <java.version>17</java.version>
-        <camel.version>4.10.0</camel.version>
-        <junit.platform.version>1.11.0</junit.platform.version>
-        <testcontainers.version>1.19.8</testcontainers.version>
-        <activemq.version>6.1.5</activemq.version>
-        <lombok.version>1.18.34</lombok.version>
+        <java.version>21</java.version>
+        <camel.version>4.22.0</camel.version>
         <cal10n-api>0.8.1</cal10n-api>
-        <junit-vintage-engine>5.11.0</junit-vintage-engine>
-        <spotless.version>2.43.0</spotless.version>
-        <google-java-format.version>1.15.0</google-java-format.version>
+        <spotless.version>3.10.1</spotless.version>
     </properties>
 
     <build>
@@ -38,7 +32,21 @@
 
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.5.1</version>
+            </plugin>
+
+            <!--
+              Camel's CamelTestSupport (camel-test-junit6) reuses a cached CamelContext across
+              test classes in a fork; once a @CamelSpringBootTest context is closed, plain
+              CamelTestSupport tests in the same fork see a stopped context. Use a fresh fork
+              per test class to keep the two test styles isolated.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <reuseForks>false</reuseForks>
+                </configuration>
             </plugin>
 
             <!-- Spotless-->
@@ -69,7 +77,6 @@
                     <java>
                         <toggleOffOn />
                         <googleJavaFormat>
-                            <version>${google-java-format.version}</version>
                             <style>AOSP</style>
                             <reflowLongStrings>true</reflowLongStrings>
                         </googleJavaFormat>
@@ -91,13 +98,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${parent.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.apache.camel.springboot</groupId>
                 <artifactId>camel-spring-boot-bom</artifactId>
@@ -169,7 +169,6 @@
        <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-broker</artifactId>
-            <version>${activemq.version}</version>
         </dependency>
         <!-- ActiveMQ -->
 
@@ -199,9 +198,10 @@
         </dependency>
         <!-- NATS -->
 
+        <!-- JSON (Jackson 3 - aligned with Spring Boot 4 / Spring Framework 7) -->
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-jackson</artifactId>
+            <artifactId>camel-jackson3</artifactId>
             <version>${camel.version}</version>
         </dependency>
 
@@ -242,7 +242,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-            <version>${lombok.version}</version>
         </dependency>
 
         <dependency>
@@ -285,29 +284,28 @@
         </dependency>
 
         <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-runner</artifactId>
-            <version>${junit.platform.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-resttestclient</artifactId>
             <scope>test</scope>
         </dependency>
 
+        <!-- Provides RestTemplateBuilder, required by TestRestTemplate auto-configuration in Spring Boot 4 -->
         <dependency>
-            <groupId>org.junit.vintage</groupId>
-            <artifactId>junit-vintage-engine</artifactId>
-            <version>${junit-vintage-engine}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-restclient</artifactId>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-test-junit5</artifactId>
+            <artifactId>camel-test-junit6</artifactId>
             <version>${camel.version}</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.apache.camel</groupId>
-            <artifactId>camel-test-spring-junit5</artifactId>
+            <artifactId>camel-test-spring-junit6</artifactId>
             <version>${camel.version}</version>
             <scope>test</scope>
         </dependency>
@@ -322,19 +320,16 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
-            <version>${testcontainers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${testcontainers.version}</version>
+            <artifactId>testcontainers-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
-            <artifactId>rabbitmq</artifactId>
-            <version>${testcontainers.version}</version>
+            <artifactId>testcontainers-rabbitmq</artifactId>
             <scope>test</scope>
         </dependency>
         <!-- TestContainers End-->
@@ -343,7 +338,7 @@
 
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
-            <artifactId>camel-opentelemetry-starter</artifactId>
+            <artifactId>camel-opentelemetry2-starter</artifactId>
         </dependency>
     </dependencies>
 
