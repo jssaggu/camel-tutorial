@@ -2,6 +2,9 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+`README.md` is the user-facing entry point and has the full build / run / Docker instructions;
+this file is the architecture-oriented companion.
+
 ## What this is
 
 A single Spring Boot app (`com.jss.CamelApplication`) that acts as a playground of ~40 independent Apache Camel routes, each demonstrating one integration pattern or component (EIPs, error handling, JMS/ActiveMQ, RabbitMQ, Kafka, NATS, SAGA, circuit breaker, REST DSL, metrics, OpenTelemetry). Tutorial videos: https://www.youtube.com/playlist?list=PLYwGWvgqiQCnRUzcdP1h6l-d9fRjP-Ed7
@@ -28,6 +31,8 @@ mvn spotless:apply                # auto-format; REQUIRED before build will pass
 ### Formatting is enforced by the build
 
 Spotless (`google-java-format`, **AOSP** style, plugin version pinned, GJF version left at the plugin default) runs `check` during the `compile` phase with `ratchetFrom=origin/main`, so any `.java` file you changed relative to `origin/main` must be formatted or the build fails. Run `mvn spotless:apply` after editing — it reformats (and removes unused imports from) only the files you changed. The `// spotless:off` / `// spotless:on` toggle is available.
+
+A second Spotless format covers `*.md` / `.gitignore` (trailing-whitespace + final-newline only — the tab-indent step was removed because it corrupted fenced code blocks). Editing docs is safe.
 
 ## How routes are enabled/disabled — the central mechanism
 
@@ -61,5 +66,5 @@ Camel REST uses `camel-servlet` mounted at context-path `/services/*` (see `came
 
 - **JUnit 6** (via Spring Boot 4). Unit-style route tests extend `org.apache.camel.test.junit6.CamelTestSupport` and override `createRouteBuilder()`; Spring-context tests use `@CamelSpringBootTest` + `@SpringBootTest` (Camel `camel-test-junit6` / `camel-test-spring-junit6`).
 - Surefire runs with `reuseForks=false` (fork per test class): `CamelTestSupport` caches a `CamelContext` per fork, and once a `@CamelSpringBootTest` closes its context the plain `CamelTestSupport` tests in the same fork would otherwise see a stopped context.
-- Testcontainers **2.x**: module artifacts are prefixed `testcontainers-` (e.g. `testcontainers-junit-jupiter`), and `DockerComposeContainer` → `ComposeContainer`. `WeatherRouteTestcontainersTest` / `TestContainerLaunchConfig` spin up RabbitMQ from `src/test/resources/docker-compose.yml` and **need a running Docker daemon**; they manually declare exchanges/queues because `camel-spring-rabbitmq` does not auto-create them.
+- Testcontainers **2.x**: module artifacts are prefixed `testcontainers-` (e.g. `testcontainers-junit-jupiter`), and `DockerComposeContainer` → `ComposeContainer`. `WeatherRouteTestcontainersTest` / `TestContainerLaunchConfig` spin up RabbitMQ from `src/test/resources/docker-compose.yml`; the test is `@Testcontainers(disabledWithoutDocker = true)` so it **skips automatically when Docker is unavailable**. It manually declares exchanges/queues because `camel-spring-rabbitmq` does not auto-create them.
 - Two tests are `@Disabled` in source (`FileHandlerRouteTest`, `WeatherRouteTest`) — expected skips.

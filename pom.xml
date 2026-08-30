@@ -68,10 +68,10 @@
                             <!-- define the steps to apply to those files -->
                             <trimTrailingWhitespace/>
                             <endWithNewline/>
-                            <indent>
-                                <tabs>true</tabs>
-                                <spacesPerTab>4</spacesPerTab>
-                            </indent>
+                            <!--
+                              No indent step here: forcing tabs on Markdown rewrites the
+                              indentation inside fenced code blocks (YAML, shell) and corrupts them.
+                            -->
                         </format>
                     </formats>
                     <java>
