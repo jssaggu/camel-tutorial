@@ -115,7 +115,9 @@ spring:
     jmx:
         enabled: true
     autoconfigure:
-        exclude: org.springframework.boot.autoconfigure.jms.activemq.ActiveMQAutoConfiguration
+        # Only effective once spring-boot-starter-activemq is on the classpath (needed when
+        # enabling jss.camel.jms). Until then this class is absent and the entry is ignored.
+        exclude: org.springframework.boot.activemq.autoconfigure.ActiveMQAutoConfiguration
 
     rabbitmq:
         host: localhost

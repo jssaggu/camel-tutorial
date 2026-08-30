@@ -30,6 +30,9 @@ public class WeatherDataProvider {
     }
 
     public void setCurrentWeather(WeatherDto dto) {
+        if (dto.getId() == null) {
+            dto.setId(WeatherDto.nextId());
+        }
         dto.setReceivedTime(new Date().toString());
         weatherData.put(dto.getCity().toUpperCase(), dto);
     }

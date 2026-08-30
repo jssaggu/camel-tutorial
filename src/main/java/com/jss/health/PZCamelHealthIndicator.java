@@ -1,11 +1,10 @@
 package com.jss.health;
 
 import org.apache.camel.CamelContext;
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthIndicator;
-import org.springframework.stereotype.Component;
+import org.springframework.boot.health.contributor.Health;
+import org.springframework.boot.health.contributor.HealthIndicator;
 
-//@Component
+// @Component
 public class PZCamelHealthIndicator implements HealthIndicator {
 
     private final CamelContext camelContext;
@@ -15,8 +14,8 @@ public class PZCamelHealthIndicator implements HealthIndicator {
     }
 
     @Override
-    public Health getHealth(boolean includeDetails) {
-        return HealthIndicator.super.getHealth(includeDetails);
+    public Health health(boolean includeDetails) {
+        return HealthIndicator.super.health(includeDetails);
     }
 
     @Override

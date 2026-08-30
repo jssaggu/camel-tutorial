@@ -1,16 +1,17 @@
 package com.jss.routes.rest;
 
 import static java.lang.String.format;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.jss.CamelApplication;
 import com.jss.dto.WeatherDto;
-import org.apache.camel.test.spring.junit5.CamelSpringBootTest;
+import org.apache.camel.test.spring.junit6.CamelSpringBootTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.resttestclient.TestRestTemplate;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureTestRestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 
@@ -18,6 +19,7 @@ import org.springframework.http.ResponseEntity;
         classes = CamelApplication.class,
         properties = {"jss.camel.rest-dsl.enabled=true"},
         webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureTestRestTemplate
 @CamelSpringBootTest
 public class RestDslTest {
 
@@ -52,7 +54,7 @@ public class RestDslTest {
         WeatherDto weather = WeatherDto.builder().city(city).temp("10").unit("C").build();
         ResponseEntity<WeatherDto> weatherResponse =
                 testRestTemplate.postForEntity(uri, weather, WeatherDto.class);
-        assertNotNull("Response can't be null", weatherResponse);
+        assertNotNull(weatherResponse, "Response can't be null");
         assertEquals(200, weatherResponse.getStatusCode().value());
         assertEquals(city, weatherResponse.getBody().getCity());
         assertNotNull(weatherResponse.getBody().getId());
