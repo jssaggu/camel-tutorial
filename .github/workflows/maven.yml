@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
         with:
           # Spotless is configured with ratchetFrom=origin/main; it needs the
           # main branch ref (and history) available in the checkout.
