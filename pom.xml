@@ -20,7 +20,7 @@
         <java.version>21</java.version>
         <camel.version>4.22.0</camel.version>
         <cal10n-api>0.8.1</cal10n-api>
-        <spotless.version>3.10.1</spotless.version>
+        <spotless.version>3.10.3</spotless.version>
     </properties>
 
     <build>
