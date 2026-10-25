@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(name = "jss.camel.error-handlers2.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "jss.camel.error-handlers.enabled", havingValue = "true")
 public class OnExceptionRoute extends RouteBuilder {
 
     static final AtomicInteger counter = new AtomicInteger(1);

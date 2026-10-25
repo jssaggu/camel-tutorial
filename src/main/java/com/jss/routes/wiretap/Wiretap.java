@@ -11,7 +11,9 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.support.DefaultMessage;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
 
+@Component
 @ConditionalOnProperty(name = "jss.camel.wiretap.enabled", havingValue = "true")
 public class Wiretap extends RouteBuilder {
 

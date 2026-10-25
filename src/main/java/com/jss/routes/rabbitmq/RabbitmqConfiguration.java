@@ -16,7 +16,8 @@ import org.springframework.context.annotation.Scope;
 @ConditionalOnExpression(
         "${jss.camel.rabbitmq.enabled:true} "
                 + "|| ${jss.camel.rabbitmq-throttler.enabled:true} "
-                + "|| ${jss.camel.rabbitmq-stress-tester.enabled:true} ")
+                + "|| ${jss.camel.rabbitmq-stress-tester.enabled:true} "
+                + "|| ${jss.camel.wiretap.enabled:false} ")
 @Slf4j
 public class RabbitmqConfiguration {
 
@@ -33,7 +34,7 @@ public class RabbitmqConfiguration {
                     + "arg.queue.autoDelete=false&"
                     + "autoDeclare=true&"
                     + "concurrentConsumers=2&"
-                    //+ "connectionFactory=#rabbitConnectionFactory&" +
+                    // + "connectionFactory=#rabbitConnectionFactory&" +
                     + "args=#rabbitArgs";
     public static String QUEUE_WEATHER_DATA = "weather-data";
     public static String ROUTINGKEY_WEATHER_DATA = "weather-data";

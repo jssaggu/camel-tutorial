@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.1.1</version>
+        <version>4.1.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.jss</groupId>
@@ -17,10 +17,10 @@
     <!--    <packaging>war</packaging>-->
 
     <properties>
-        <java.version>21</java.version>
-        <camel.version>4.22.0</camel.version>
+        <java.version>27</java.version>
+        <camel.version>4.22.2</camel.version>
         <cal10n-api>0.8.1</cal10n-api>
-        <spotless.version>3.10.1</spotless.version>
+        <spotless.version>3.10.4</spotless.version>
     </properties>
 
     <build>
@@ -28,6 +28,24 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <!--
+              JDK 23+ no longer runs annotation processors discovered on the classpath,
+              so Lombok must be declared explicitly or its getters/setters are not generated.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
 
             <plugin>

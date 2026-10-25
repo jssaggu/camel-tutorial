@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre
+FROM eclipse-temurin:27-jre
 ARG JAR_FILE=target/*.jar
 ADD ${JAR_FILE} app.jar
 ENTRYPOINT ["java", "-jar", "/app.jar"]

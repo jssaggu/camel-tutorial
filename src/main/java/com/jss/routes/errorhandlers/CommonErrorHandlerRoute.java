@@ -8,7 +8,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConditionalOnProperty(name = "jss.camel.error-handlers.enabled2", havingValue = "true")
+@ConditionalOnProperty(name = "jss.camel.error-handlers.enabled", havingValue = "true")
 public class CommonErrorHandlerRoute extends RouteBuilder {
 
     public static final AtomicInteger COUNTER = new AtomicInteger(1);

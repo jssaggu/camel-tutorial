@@ -25,10 +25,10 @@ jobs:
           # Spotless is configured with ratchetFrom=origin/main; it needs the
           # main branch ref (and history) available in the checkout.
           fetch-depth: 0
-      - name: Set up JDK 21
+      - name: Set up JDK 27
         uses: actions/setup-java@v5
         with:
-          java-version: '21'
+          java-version: '27'
           distribution: 'temurin'
           cache: maven
       - name: Build with Maven
