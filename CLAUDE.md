@@ -7,9 +7,9 @@ this file is the architecture-oriented companion.
 
 ## What this is
 
-A single Spring Boot app (`com.jss.CamelApplication`) that acts as a playground of ~40 independent Apache Camel routes, each demonstrating one integration pattern or component (EIPs, error handling, JMS/ActiveMQ, RabbitMQ, Kafka, NATS, SAGA, circuit breaker, REST DSL, metrics, OpenTelemetry). Tutorial videos: https://www.youtube.com/playlist?list=PLYwGWvgqiQCnRUzcdP1h6l-d9fRjP-Ed7
+A single Spring Boot app (`com.jss.CamelApplication`) that acts as a playground of ~25 independent Apache Camel routes, each demonstrating one integration pattern or component (EIPs, error handling, JMS/ActiveMQ, RabbitMQ, Kafka, NATS, SAGA, circuit breaker, REST DSL, metrics, OpenTelemetry). Tutorial videos: https://www.youtube.com/playlist?list=PLYwGWvgqiQCnRUzcdP1h6l-d9fRjP-Ed7
 
-- Spring Boot 4.1.x, Camel 4.22.x (LTS), Java 21, Maven (no wrapper — use system `mvn`). Build needs a JDK 21.
+- Spring Boot 4.1.x, Camel 4.22.x (LTS), Java 27, Maven (no wrapper — use system `mvn`). Build needs JDK 27+ (Lombok is declared as an explicit annotation processor because JDK 23+ no longer discovers processors on the classpath).
 - Packaged as `target/camel-tutorial.jar`. Also war-deployable (`SpringBootServletInitializer`, `provided` Tomcat).
 - Spring Boot 4 / Framework 7 baseline: Jakarta EE 11, **Jackson 3** (`tools.jackson.*`; `com.fasterxml.jackson.annotation` annotations unchanged), JUnit 6, health SPI moved to `org.springframework.boot.health.contributor.*`, test helpers repackaged (`TestRestTemplate` → `org.springframework.boot.resttestclient`, needs `@AutoConfigureTestRestTemplate` + `spring-boot-restclient` on the test classpath).
 
